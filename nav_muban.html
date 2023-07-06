@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>start</title>
+		<!--必要样式-->
+		<link rel="stylesheet" type="text/css" href="css/climacons.css" />
+		<link rel="stylesheet" type="text/css" href="css/component2.css" />
+		<script type="text/javascript" src="js/modernizr.custom.js"></script>
+
+		<style>
+		
+			< !-- @import url(http://fonts.googleapis.com/css?family=Lato:100,400,700,900);
+
+			-->html {
+				height: 100%;
+				font-size: 100%;
+			}
+
+			*,
+			*:after,
+			*:before {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				padding: 0;
+				margin: 0;
+			}
+
+			.clearfix:before,
+			.clearfix:after {
+				content: " ";
+				display: table;
+			}
+
+			.clearfix:after {
+				clear: both;
+			}
+
+			.clearfix {
+				*zoom: 1;
+			}
+
+			body {
+				font-family: 'Lato', Calibri, Arial, sans-serif;
+				background: #f9f9f9;
+				font-weight: 400;
+				font-size: 1em;
+				color: #333;
+				overflow: scroll;
+				overflow-x: hidden;
+			}
+
+			a {
+				color: #555;
+				text-decoration: none;
+			}
+
+			.container {
+				width: 100%;
+				position: relative;
+			}
+
+			.main,
+			.container>header {
+				width: 100%;
+				/* max-width: 76em; */
+				margin: 0 auto;
+				/* padding: 0 1.875em 3.125em 1.875em; */
+			}
+
+			.container>header {
+				padding: 1.875em;
+			}
+
+			.container>header h1 {
+				font-size: 2.125em;
+				line-height: 1.3;
+				margin: 0;
+				font-weight: 700;
+				color: #333;
+				float: left;
+			}
+
+			.container>header h1 span {
+				display: block;
+				font-size: 65%;
+				font-weight: 300;
+			}
+
+		</style>
+	</head>
+
+	<body style="background:#cbefd0">
+		<!-- <video src="" autoplay="true" loop="" width="1080" height="608"></video> -->
+		<canvas id="canvas" width="100%" height="100%" style="position:fixed;top:0;left:0;"></canvas>
+		<script>
+			var canvas,
+				ctx,
+				width,
+				height,
+				size,
+				lines,
+				tick;
+
+			function line() {
+				this.path = [];
+				this.speed = rand(10, 20);
+				this.count = randInt(10, 30);
+				this.x = width / 2, +1;
+				this.y = height / 2 + 1;
+				this.target = {
+					x: width / 2,
+					y: height / 2
+				};
+				this.dist = 0;
+				this.angle = 0;
+				this.hue = tick / 5;
+				this.life = 1;
+				this.updateAngle();
+				this.updateDist();
+			}
+
+			line.prototype.step = function(i) {
+				this.x += Math.cos(this.angle) * this.speed;
+				this.y += Math.sin(this.angle) * this.speed;
+
+				this.updateDist();
+
+				if (this.dist < this.speed) {
+					this.x = this.target.x;
+					this.y = this.target.y;
+					this.changeTarget();
+				}
+
+				this.path.push({
+					x: this.x,
+					y: this.y
+				});
+				if (this.path.length > this.count) {
+					this.path.shift();
+				}
+
+				this.life -= 0.001;
+
+				if (this.life <= 0) {
+					this.path = null;
+					lines.splice(i, 1);
+				}
+			};
+
+			line.prototype.updateDist = function() {
+				var dx = this.target.x - this.x,
+					dy = this.target.y - this.y;
+				this.dist = Math.sqrt(dx * dx + dy * dy);
+			}
+
+			line.prototype.updateAngle = function() {
+				var dx = this.target.x - this.x,
+					dy = this.target.y - this.y;
+				this.angle = Math.atan2(dy, dx);
+			}
+
+			line.prototype.changeTarget = function() {
+				var randStart = randInt(0, 3);
+				switch (randStart) {
+					case 0: // up
+						this.target.y = this.y - size;
+						break;
+					case 1: // right
+						this.target.x = this.x + size;
+						break;
+					case 2: // down
+						this.target.y = this.y + size;
+						break;
+					case 3: // left
+						this.target.x = this.x - size;
+				}
+				this.updateAngle();
+			};
+
+			line.prototype.draw = function(i) {
+				ctx.beginPath();
+				var rando = rand(0, 10);
+				for (var j = 0, length = this.path.length; j < length; j++) {
+					ctx[(j === 0) ? 'moveTo' : 'lineTo'](this.path[j].x + rand(-rando, rando), this.path[j].y + rand(-rando,
+						rando));
+				}
+				ctx.strokeStyle = 'hsla(' + rand(this.hue, this.hue + 30) + ', 80%, 55%, ' + (this.life / 3) + ')';
+				ctx.lineWidth = rand(0.1, 2);
+				ctx.stroke();
+			};
+
+			function rand(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+
+			function randInt(min, max) {
+				return Math.floor(min + Math.random() * (max - min + 1));
+			};
+
+			function init() {
+				canvas = document.getElementById('canvas');
+				ctx = canvas.getContext('2d');
+				size = 30;
+				lines = [];
+				reset();
+				loop();
+			}
+
+			function reset() {
+				width = Math.ceil(window.innerWidth / 2) * 2;
+				height = Math.ceil(window.innerHeight / 2) * 2;
+				tick = 0;
+
+				lines.length = 0;
+				canvas.width = width;
+				canvas.height = height;
+			}
+
+			function create() {
+				if (tick % 10 === 0) {
+					lines.push(new line());
+				}
+			}
+
+			function step() {
+				var i = lines.length;
+				while (i--) {
+					lines[i].step(i);
+				}
+			}
+
+			function clear() {
+				ctx.globalCompositeOperation = 'destination-out';
+				ctx.fillStyle = 'hsla(0, 0%, 0%, 0.1';
+				ctx.fillRect(0, 0, width, height);
+				ctx.globalCompositeOperation = 'lighter';
+			}
+
+			function draw() {
+				ctx.save();
+				ctx.translate(width / 2, height / 2);
+				ctx.rotate(tick * 0.001);
+				var scale = 0.8 + Math.cos(tick * 0.02) * 0.2;
+				ctx.scale(scale, scale);
+				ctx.translate(-width / 2, -height / 2);
+				var i = lines.length;
+				while (i--) {
+					lines[i].draw(i);
+				}
+				ctx.restore();
+			}
+
+			function loop() {
+				requestAnimationFrame(loop);
+				create();
+				step();
+				clear();
+				draw();
+				tick++;
+			}
+
+			function onresize() {
+				reset();
+			}
+
+			window.addEventListener('resize', onresize);
+
+			init();
+
+		</script>
+		<div class="container">
+
+
+			<div class="main">
+
+				<ul id="rb-grid" class="rb-grid clearfix">
+					<li class="icon-clima-2">
+						<h3>resume</h3><span class="rb-temp">2016-07-24</span>
+						<div class="rb-overlay" da-href="resume.html">
+							<span class="rb-close"></span>
+							<div class="rb-week">
+								<!-- <iframe border="0" id="content" src="resume.html"  frameborder="0" height="100%" width="100%"></iframe> -->
+							</div>
+						</div>
+					</li>
+		
+		<li class="icon-clima-2">				<h3>个人足迹</h3><span class="rb-temp">2016-07-24</span>
+				<div class="rb-overlay" da-href="http://www.mafengwo.cn/u/46963049.html">
+				<span class="rb-close">close</span>
+					<div class="rb-week">
+					<!-- <iframe border="0" id="content" src="http://www.mafengwo.cn/u/46963049.html"  frameborder="0" height="100%" width="100%"></iframe> -->					</div>
+				</div>
+			</li>
+
+			<li class="icon-clima-1 rb-span-2">
+			<h3>后台管理系统</h3><span class="rb-temp">2014-03-11</span>
+				<div class="rb-overlay" da-href="arch/index.htm">
+				<!-- <div class="rb-overlay" da-href="arch/home/homePage.html"> -->
+				<span class="rb-close">close</span>
+					<div class="rb-week">
+					<!-- <iframe border="0" id="content" src="arch/index.htm"  frameborder="0" height="100%" width="100%"></iframe> -->
+					</div>
+				</div>			</li>
+
+
+			<li class="icon-clima-4 rb-span-4" style="margin:0;padding:0;width:0;height:0">
+				<div class="rb-overlay">
+				<span class="rb-close">close</span>
+				</div>
+		</li>
+
+
+		</ul>
+
+		</div>
+
+		</div>
+		<textarea style="display:none">
+<div><span class="rb-city"></span><span class="icon-clima-4"></span><span></span></div>
+						<div><span>Mon</span><span class="icon-clima-4"></span><span></span></div>
+						<div><span>Tue</span><span class="icon-clima-4"></span><span></span></div>
+						<div><span>Wed</span><span class="icon-clima-2"></span><span></span></div>
+						<div><span>Thu</span><span class="icon-clima-2"></span><span></span></div>
+						<div><span>Fri</span><span class="icon-clima-8"></span><span></span></div>
+						<div><span>Sat</span><span class="icon-clima-8"></span><span></span></div>
+						<div><span>Sun</span><span class="icon-clima-8"></span><span>29s</span></div> 
+						
+</textarea>
+		<script src="jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.fittext.js"></script>
+		<script type="text/javascript" src="js/boxgrid.example2.js"></script>
+		<script type="text/javascript">
+			$(function() {
+
+				var arrColor = ["#1ABC9C", "#2ECC71", "#3498DB", "#9B59B6", "#34495E", "#F1C40F", "#E67E22", "#E74C3C",
+					"#ECF0F1", "#95A5A6", "#FFCC66", "#99CC99", "#669999", "#CC6699", "#339966", "#666699"
+				];
+				var arrColorAuto = ["#2d913c", "#277e34", "#20682b", "#4ac85e", "#34a946", "#298737"];
+
+				$("#rb-grid").children("li").each(function() {
+
+					$(this).css("background-color", arrColorAuto[Math.floor(Math.random() * 6)]);
+				})
+				var iframeHeight = function() {
+					var _height = $(window).height() - 34; <
+					!--$('#content').height(_height);
+					-- >
+				}
+				window.onresize = iframeHeight;
+				$(function() {
+					iframeHeight();
+				});
+				Boxgrid.init();
+			});
+
+		</script>
+
+	</body>
+</html>
+
