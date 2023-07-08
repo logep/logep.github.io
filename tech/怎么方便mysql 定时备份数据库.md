@@ -140,3 +140,20 @@ mysqldump -u username -p database_name > /path/to/backup_$(date +%Y%m%d_%H%M%S).
 请注意，如果你使用的是 Windows 系统，请使用相应的日期和时间格式来替换示例中的时间戳格式。
 
 
+
+
+要查看当前用户的 crontab 列表中包含的定时任务，可以使用以下命令：
+
+```bash
+crontab -l
+```
+
+执行此命令后，系统将显示当前用户的 crontab 文件中定义的所有定时任务。
+
+如果你希望查看其他用户的 crontab 列表，可以使用以下命令，并将 `username` 替换为所需用户的用户名：
+
+```bash
+crontab -l -u username
+```
+
+这将显示指定用户的 crontab 文件中定义的定时任务列表。
