@@ -87,3 +87,43 @@ source ~/.bashrc
 
 请注意，确保 Clash 正确启动并在监听的端口上提供代理服务，以及在配置文件中正确配置了代理规则。
 
+
+
+
+
+Clash 在电脑重新启动后不会自动启动。你需要设置 Clash 的自启动，使其在系统启动时自动运行。
+
+在 Ubuntu 中，你可以按照以下步骤设置 Clash 的自启动：
+
+1. 创建一个 Clash 的启动脚本：
+   - 打开终端。
+   - 使用文本编辑器创建一个新的启动脚本，例如 `clash-start.sh`：
+     ```bash
+     nano clash-start.sh
+     ```
+   - 在脚本中添加以下内容：
+     ```bash
+     #!/bin/bash
+     /path/to/clash -d /path/to/config.yaml
+     ```
+     将 `/path/to/clash` 替换为 Clash 的二进制文件的实际路径，将 `/path/to/config.yaml` 替换为 Clash 的配置文件的实际路径。
+   - 保存并关闭文件。
+
+2. 赋予启动脚本执行权限：
+   - 在终端中运行以下命令，给启动脚本赋予执行权限：
+     ```bash
+     chmod +x clash-start.sh
+     ```
+
+3. 将 Clash 启动脚本添加到系统的启动项：
+   - 打开终端。
+   - 使用以下命令将 Clash 启动脚本添加到系统的启动项中：
+     ```bash
+     sudo cp clash-start.sh /etc/init.d/
+     sudo update-rc.d clash-start.sh defaults
+     ```
+
+现在，当你的电脑重新启动时，Clash 将会自动启动。
+
+请注意，上述步骤是基于 Ubuntu 的一般设置，根据你的实际环境可能会有所不同。
+
