@@ -127,3 +127,28 @@ Clash 在电脑重新启动后不会自动启动。你需要设置 Clash 的自�
 
 请注意，上述步骤是基于 Ubuntu 的一般设置，根据你的实际环境可能会有所不同。
 
+
+
+Clash 的文件路径可以因安装方式而有所不同。以下是在 Ubuntu 中查找 Clash 文件路径的一些常见方法：
+
+1. 如果你使用 APT 包管理器进行安装，你可以使用以下命令来查找 Clash 的二进制文件路径：
+```bash
+which clash
+```
+该命令将输出 Clash 的完整路径。
+
+2. 如果你通过编译源代码或手动安装 Clash，你可以尝试以下位置来查找 Clash 的二进制文件：
+- `/usr/local/bin/clash`
+- `/usr/bin/clash`
+- `/opt/clash/clash`
+
+3. 如果你是通过 Docker 运行 Clash，你可以使用以下命令来查看正在运行的 Docker 容器中的文件路径：
+```bash
+docker inspect <container_name> | grep "WorkingDir"
+```
+将 `<container_name>` 替换为 Clash 容器的名称。
+
+4. 如果你安装了 Clash 配套的管理工具，如 Clash for Windows 或 ClashX，可以在这些工具的设置或偏好设置中查找 Clash 文件路径。
+
+如果以上方法仍然无法找到 Clash 文件路径，请提供更多关于你的安装方式和环境的详细信息，以便我能够更好地帮助你。
+
