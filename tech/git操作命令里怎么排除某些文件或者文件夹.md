@@ -18,3 +18,21 @@ config.ini
 3. 提交更新的 `.gitignore` 文件到仓库中，使用命令：`git add .gitignore` 和 `git commit -m "Update .gitignore"`。
 
 这样，之后提交时，指定的文件或文件夹将被忽略。
+
+是的，你可以在命令行中使用 `git add` 命令时使用参数来排除某些文件或文件夹，而不需要在 `.gitignore` 文件中指定。你可以使用以下命令：
+
+```bash
+git add . -- :^<file> :^<folder>
+```
+
+其中 `<file>` 和 `<folder>` 是你要排除的文件或文件夹的路径。
+
+举个例子，假设你要排除名为 `config.ini` 的文件和名为 `dist` 的文件夹，你可以使用以下命令：
+
+```bash
+git add . -- :^config.ini :^dist/
+```
+
+这将将除了 `config.ini` 文件和 `dist` 文件夹以外的所有内容添加到暂存区。这样，在执行 `git commit` 命令时，排除的文件和文件夹将不会被包含在提交中。
+
+请注意，在执行 `git add` 命令之前，确保已经在正确的目录下，并且将 `<file>` 和 `<folder>` 替换为实际的文件或文件夹路径。
