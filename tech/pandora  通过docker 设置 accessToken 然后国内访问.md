@@ -19,6 +19,27 @@ Access Token 有效期 14 天，期间访问不需要梯子。这意味着你在
 
 docker 安装命令：
 
+# 最新
+
+```
+docker run -d --name pandoraGPT --restart unless-stopped -e PANDORA_SERVER=0.0.0.0:3000 -e PANDORA_CLOUD=true -p 3000:3000 -v /home/pandora/data:/data pengzhile/pandora:latest
+
+version: "3.9"
+services:
+  pandora:
+    image: pengzhile/pandora:latest
+    container_name: pandoraGPT
+    restart: unless-stopped
+    environment:
+      - PANDORA_SERVER=0.0.0.0:3000
+      - PANDORA_CLOUD=true
+    ports:
+      - 3000:3000
+    volumes:
+      - /home/pandora/data:/data
+```
+
+
 ```
 curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 ```
