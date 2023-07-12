@@ -10,6 +10,8 @@
 
 5. 在弹出的对话框中，输入以下公式：
    ```
+   =OR(COUNTIF(Sheet1!$A:$A, A1)>0, COUNTIF(Sheet2!$A:$A, A1)>0)
+或者
    =COUNTIF(Sheet1!$A:$A, A1)>0
    ```
    这个公式将检查当前单元格在第一个工作表（Sheet1）的列A中是否有重复的。
