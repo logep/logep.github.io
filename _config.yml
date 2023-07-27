@@ -3,7 +3,7 @@ title: 技术笔录
 description: 技术笔录
 baseurl: "/logep.github.io" # The subpath of your site, e.g. /blog
 url: https://logep-github-io.vercel.app # The base hostname & protocol for your site
-
+destination: _site
 # Build settings
 markdown: kramdown
 theme: minima
