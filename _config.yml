@@ -1,7 +1,7 @@
 # Site settings
 title: 技术笔录
 description: 技术笔录
-baseurl: "" # The subpath of your site, e.g. /blog
+baseurl: "/logep.github.io" # The subpath of your site, e.g. /blog
 url: https://logep-github-io.vercel.app # The base hostname & protocol for your site
 
 # Build settings
