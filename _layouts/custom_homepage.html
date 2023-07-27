@@ -1,10 +1,10 @@
 <ul>
   {% for page in site.pages %}
     {% if page.url contains '/colledges/' and page.url contains '.html' %}
-      <li><a href="{{ page.url }}">{{page}}{{ page.title }}</a></li>
+      <li><a href="{{ page.url }}">{{ page.name }}</a></li>
     {% endif %}
      {% if page.url contains '/tech/' and page.url contains '.html' %}
-      <li><a href="{{ page.url }}">{{page}}{{ page.title }}</a></li>
+      <li><a href="{{ page.url }}">{{ page.name }}</a></li>
     {% endif %}
   {% endfor %}
 </ul>
