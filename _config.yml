@@ -15,9 +15,9 @@ collections:
   tech:
     output: true
     permalink: /tech/:title
-  colleges:
+  colledges:
     output: true
-    permalink: /colleges/:title
+    permalink: /colledges/:title
 
 
 # Exclude files
@@ -26,10 +26,10 @@ exclude:
   - Gemfile.lock
   - node_modules
   - vendor
-  # - _site
+  - _site
   - .sass-cache
 
 # SEO settings
 meta_description: 技术笔录
 author: logep
-twitter_username: logep
+# twitter_username: logep
