@@ -1,0 +1,35 @@
+# Site settings
+title: 技术笔录
+description: 技术笔录
+baseurl: "" # The subpath of your site, e.g. /blog
+url: https://logep-github-io.vercel.app # The base hostname & protocol for your site
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Collections
+collections:
+  tech:
+    output: true
+    permalink: /tech/:title
+  colleges:
+    output: true
+    permalink: /colleges/:title
+
+
+# Exclude files
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - _site
+  - .sass-cache
+
+# SEO settings
+meta_description: 技术笔录
+author: logep
+twitter_username: logep
