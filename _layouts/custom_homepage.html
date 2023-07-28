@@ -18,4 +18,18 @@
   {% endfor %}
 </ul>
 <script src="https://christian-fei.github.io/Simple-Jekyll-Search/js/jekyll-search.js"></script>
-  <script src="./search.js"></script>
+<!--   <script src="./search.js"></script> -->
+    <script type="text/javascript">
+      SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('search-results'),
+      json: '{{ site.baseurl }}/search.json',
+
+    noResultsText: 'No results found',
+        searchResultTemplate: '<li><a href="{url}" title="{name}">{title}</a></li>',
+
+        limit: 10,
+        fuzzy: false,
+        exclude: ['Welcome']
+      })
+    </script>
