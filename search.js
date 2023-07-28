@@ -1,15 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const searchInput = document.getElementById('search-input');
-  const searchResults = document.getElementById('search-results');
+// document.addEventListener('DOMContentLoaded', function() {
+//   const searchInput = document.getElementById('search-input');
+//   const searchResults = document.getElementById('search-results');
 
   simpleJekyllSearch({
-    searchInput: searchInput,
-    resultsContainer: searchResults,
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('search-results'),
     json: '{{ site.baseurl }}/search.json',
     searchResultTemplate: '<li><a href="{url}">{title}..</a></li>',
     noResultsText: 'No results found',
   });
-});
+// });
 
 // document.addEventListener('DOMContentLoaded', function() {
 //   const searchInput = document.getElementById('search-input');
