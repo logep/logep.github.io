@@ -173,7 +173,7 @@ Certainly! When you have a large dataset and need to loop through your Jekyll co
    ---
    layout: none
    ---
-   {% include algolia-template.json %}
+  ///////// 去掉了相应符号 include algolia-template.json
    ```
 
 4. **Run Jekyll Build**: Now, when you run `jekyll build`, Jekyll will generate the `algolia-data.json` file, which will contain the properly formatted JSON data for your Algolia index.
