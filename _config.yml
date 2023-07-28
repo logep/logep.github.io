@@ -14,7 +14,7 @@ plugins:
 simple_search:
   data_source: _data/search.json
   
-permalink: /:title.json
+
 
 # Collections
 collections:
@@ -24,7 +24,8 @@ collections:
   colledges:
     output: true
     permalink: /colledges/:title
-
+    
+  # permalink: /:title.json
 
 # Exclude files
 exclude:
