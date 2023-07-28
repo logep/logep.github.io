@@ -1,7 +1,7 @@
 [
   {% for page in site.pages %}
    {
-     {% if page.title != nil %}
+     {% if page.name != nil %}
         "title"    : "{{ page.name | escape }}",
         "category" : "{{ page.category }}",
         "tags"     : "{{ page.tags | join: ', ' }}",
