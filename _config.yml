@@ -26,7 +26,7 @@ collections:
     permalink: /colledges/:title
   sh:
     output: true
-    permalink: /search.json  
+    permalink: /sh/search.json  
   # permalink: /:title.json
 
 # Exclude files
