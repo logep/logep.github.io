@@ -24,7 +24,9 @@ collections:
   colledges:
     output: true
     permalink: /colledges/:title
-    
+  sh:
+    output: true
+    permalink: /search.json  
   # permalink: /:title.json
 
 # Exclude files
