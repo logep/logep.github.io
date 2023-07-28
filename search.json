@@ -1,35 +1,14 @@
 [
-  
-    {
-      "title"    : "This is just a test",
-      "category" : "",
-      "tags"     : "",
-      "url"      : "/Simple-Jekyll-Search/example/jekyll/update/2014/11/01/test.html",
-      "date"     : "2014-11-01 20:07:22 +0000"
-    } ,
-  
-    {
-      "title"    : "Welcome to Jekyll!",
-      "category" : "",
-      "tags"     : "",
-      "url"      : "/Simple-Jekyll-Search/example/jekyll/update/2014/11/01/welcome-to-jekyll.html",
-      "date"     : "2014-11-01 20:07:22 +0000"
-    } ,
-  
-    {
-      "title"    : "This is just a test",
-      "category" : "",
-      "tags"     : "",
-      "url"      : "/Simple-Jekyll-Search/jekyll/update/2014/11/01/test.html",
-      "date"     : "2014-11-01 20:07:22 +0000"
-    } ,
-  
-    {
-      "title"    : "Welcome to Jekyll!",
-      "category" : "",
-      "tags"     : "",
-      "url"      : "/Simple-Jekyll-Search/jekyll/update/2014/11/01/welcome-to-jekyll.html",
-      "date"     : "2014-11-01 20:07:22 +0000"
-    } 
-  
+  {% for page in site.pages %}
+   {
+     {% if page.title != nil %}
+        "title"    : "{{ page.name | escape }}",
+        "category" : "{{ page.category }}",
+        "tags"     : "{{ page.tags | join: ', ' }}",
+        "url"      : "{{ site.baseurl }}{{ page.url }}",
+        "date"     : "{{ page.date }}",
+        "content"  : "{{ page.content | strip_html | strip_newlines }}"
+     {% endif %}
+   } {% unless forloop.last %},{% endunless %}
+  {% endfor %}
 ]
