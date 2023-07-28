@@ -12,7 +12,7 @@ plugins:
   # - jekyll-simple-search
   
 simple_search:
-  data_source: _data/search.json
+  data_source: _layouts/search.json
   
 
 
