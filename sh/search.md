@@ -1,5 +1,5 @@
 ---
-layout: search.json
+layout: search
 permalink: /sh/search.json
 ---
 
