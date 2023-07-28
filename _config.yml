@@ -11,8 +11,8 @@ plugins:
   - jekyll-feed
   # - jekyll-simple-search
   
-simple_search:
-  data_source: _layouts/search.json
+# simple_search:
+#   data_source: _layouts/search.json
   
 
 
