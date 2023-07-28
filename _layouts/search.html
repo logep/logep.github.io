@@ -6,8 +6,7 @@
         "category" : "{{ page.category }}",
         "tags"     : "{{ page.tags | join: ', ' }}",
         "url"      : "{{ site.baseurl }}{{ page.url }}",
-        "date"     : "{{ page.date }}",
-        "content"  : "{{ page.content | escape | strip_html | jsonify | strip_newlines }}"
+        "date"     : "{{ page.date }}"
 
    } {% unless forloop.last %},{% endunless %}
   {% endfor %}
