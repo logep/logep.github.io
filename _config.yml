@@ -9,7 +9,7 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
-  - jekyll-simple-search
+  # - jekyll-simple-search
   
 simple_search:
   data_source: _data/search.json
