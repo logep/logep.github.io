@@ -24,6 +24,9 @@ collections:
   colledges:
     output: true
     permalink: /colledges/:title
+  office:
+    output: true
+    permalink: /office/:title
   sh:
     output: true
     permalink: /sh/search.json  
