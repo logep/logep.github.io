@@ -11,6 +11,18 @@ var _hmt = _hmt || [];
 
   <!-- ... Your other head content ... -->
   <style>
+       #draggable-element {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      line-height: 100px;
+      cursor: move;
+    }
     /* Styling for the search input */
     #search-input {
       padding: 8px 12px;
@@ -106,13 +118,16 @@ var _hmt = _hmt || [];
     <!-- The search results will be displayed here -->
   </ul>
 
- <div id="category-bar" style="position: fixed; bottom: 20px; right: 20px;">
+
+  <div id="draggable-element">
+ <div id="category-bar" >
     <button class="category-button" data-target="colledges">Colleges</button>
     <button class="category-button" data-target="tech">Tech</button>
     <!-- 添加更多分类按钮 -->
     <!-- <button class="category-button" data-target="more-categories">More Categories</button> -->
   </div>
-
+    
+  </div>
 
   <!-- 分类内容 -->
   <div class="content" id="colledges">
@@ -200,5 +215,32 @@ var _hmt = _hmt || [];
       // 统计文章数目
       const count = articleItems.length;
       button.innerHTML = `${button.innerHTML} (${count})`;
+    });
+
+       // 右下角元素拖拽功能
+    const draggableElement = document.getElementById('draggable-element');
+
+    let offsetX, offsetY, isDragging = false;
+
+    draggableElement.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
+      offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
+        const maxX = window.innerWidth - draggableElement.offsetWidth;
+        const maxY = window.innerHeight - draggableElement.offsetHeight;
+        
+        draggableElement.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
+        draggableElement.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
     });
     </script>
