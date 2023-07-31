@@ -104,7 +104,7 @@ var _hmt = _hmt || [];
   </ul>
 
  <div id="category-bar" style="position: fixed; bottom: 20px; right: 20px;">
-    <button class="category-button" data-target="colleges">Colleges</button>
+    <button class="category-button" data-target="colledges">Colleges</button>
     <button class="category-button" data-target="tech">Tech</button>
     <!-- 添加更多分类按钮 -->
     <!-- <button class="category-button" data-target="more-categories">More Categories</button> -->
@@ -112,13 +112,13 @@ var _hmt = _hmt || [];
 
 
   <!-- 分类内容 -->
-  <div class="content" id="colleges">
+  <div class="content" id="colledges">
      <!-- 折叠按钮 -->
-    <button class="collapsible">Colleges</button>
+    <button class="collapsible">colledges</button>
     <!-- colleges分类下的文章列表 -->
     <ul>
       {% for page in site.pages %}
-        {% if page.url contains '/colleges/' and page.url contains '.html' %}
+        {% if page.url contains '/colledges/' and page.url contains '.html' %}
           <li><a href="{{ page.url }}">{{ page.name }}</a></li>
         {% endif %}
       {% endfor %}
