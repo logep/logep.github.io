@@ -51,6 +51,50 @@ var _hmt = _hmt || [];
       text-decoration: none;
     }
   </style>
+   <style>
+    /* CSS 样式，用于美化搜索框和搜索结果 */
+    #search-input {
+      width: 300px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #search-results {
+      list-style-type: none;
+      padding: 0;
+    }
+    #search-results li {
+      padding: 8px;
+      background-color: #f2f2f2;
+      margin: 4px 0;
+    }
+    /* 可折叠功能 */
+    .collapsible {
+      cursor: pointer;
+      padding: 8px;
+      background-color: #f2f2f2;
+      border: none;
+      text-align: left;
+      outline: none;
+      width: 100%;
+    }
+    .active {
+      background-color: #ccc;
+    }
+    .content {
+      display: none;
+    }
+
+       /* 其他样式代码... */
+    /* 折叠按钮样式 */
+    .collapsible::after {
+      content: "\25BC"; /* Unicode箭头字符，表示向下箭头 */
+      padding-left: 8px;
+    }
+    .collapsible.active::after {
+      content: "\25B2"; /* Unicode箭头字符，表示向上箭头 */
+    }
+  </style>
 </head>
 
 <input type="text" id="search-input" placeholder="Search for articles...">
@@ -58,7 +102,14 @@ var _hmt = _hmt || [];
   <ul id="search-results">
     <!-- The search results will be displayed here -->
   </ul>
-<ul>
+
+ <div id="category-bar" style="position: fixed; bottom: 20px; right: 20px;">
+    <button class="category-button" data-target="colleges">Colleges</button>
+    <button class="category-button" data-target="tech">Tech</button>
+    <!-- 添加更多分类按钮 -->
+    <!-- <button class="category-button" data-target="more-categories">More Categories</button> -->
+  </div>
+<!-- <ul>
     {% assign pageNumber = 1 %}
   {% for page in site.pages %}
     {% if page.url contains '/colledges/' and page.url contains '.html' %}
@@ -71,7 +122,34 @@ var _hmt = _hmt || [];
     {% endif %}
 
   {% endfor %}
-</ul>
+</ul> -->
+
+  <!-- 分类内容 -->
+  <div class="content" id="colleges">
+     <!-- 折叠按钮 -->
+    <button class="collapsible">Colleges</button>
+    <!-- colleges分类下的文章列表 -->
+    <ul>
+      {% for page in site.pages %}
+        {% if page.url contains '/colleges/' and page.url contains '.html' %}
+          <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="content" id="tech">
+    <!-- tech分类下的文章列表 -->
+      <button class="collapsible">Tech</button>
+    <ul>
+      {% for page in site.pages %}
+        {% if page.url contains '/tech/' and page.url contains '.html' %}
+          <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
 <script src="https://christian-fei.github.io/Simple-Jekyll-Search/js/jekyll-search.js"></script>
 <!--   <script src="./search.js"></script> -->
     <script type="text/javascript">
@@ -87,4 +165,50 @@ var _hmt = _hmt || [];
         fuzzy: false,
         exclude: ['Welcome']
       })
+         // JavaScript代码，实现分类固定栏功能
+    const categoryButtons = document.querySelectorAll('.category-button');
+    const contentSections = document.querySelectorAll('.content');
+
+    categoryButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.target;
+        const contentSection = document.getElementById(target);
+
+        contentSections.forEach((section) => {
+          if (section.id === target) {
+            section.classList.toggle('active');
+          } else {
+            section.classList.remove('active');
+          }
+        });
+
+        // 滚动到相应的分类位置
+        contentSection.scrollIntoView({
+          behavior: 'smooth',
+        });
+      });
+    });
+       // JavaScript代码，实现分类固定栏功能
+    // 其他JavaScript代码...
+
+    // 添加折叠功能和文章数目统计
+    const contents = document.querySelectorAll('.content');
+
+    contents.forEach((content) => {
+      const button = content.querySelector('.collapsible');
+      const articleList = content.querySelector('ul');
+      const articleItems = content.querySelectorAll('ul li');
+
+      // 初始状态为展开
+      content.classList.add('active');
+
+      // 切换折叠状态
+      button.addEventListener('click', () => {
+        content.classList.toggle('active');
+      });
+
+      // 统计文章数目
+      const count = articleItems.length;
+      button.innerHTML = `${button.innerHTML} (${count})`;
+    });
     </script>
