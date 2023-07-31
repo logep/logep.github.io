@@ -64,9 +64,23 @@ var _hmt = _hmt || [];
     }
   </style>
    <style>
+         .category-button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+      cursor: pointer;
+      transition: transform 0.2s; /* 添加动画效果 */
+    }
+
+    .category-button:hover {
+      transform: scale(1.1); /* 鼠标悬停时放大按钮 */
+    }
     /* CSS 样式，用于美化搜索框和搜索结果 */
     #search-input {
-      width: 300px;
+ 
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 5px;
