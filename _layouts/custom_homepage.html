@@ -237,25 +237,45 @@ var _hmt = _hmt || [];
 
     let offsetX, offsetY, isDragging = false;
 
-    draggableElement.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
-      offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
-    });
+      // 检测设备类型，确定使用触摸事件还是鼠标事件
+      const isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+      const startEvent = isTouchDevice ? 'touchstart' : 'mousedown';
+      const moveEvent = isTouchDevice ? 'touchmove' : 'mousemove';
+      const endEvent = isTouchDevice ? 'touchend' : 'mouseup';
 
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        const x = e.clientX - offsetX;
-        const y = e.clientY - offsetY;
-        const maxX = window.innerWidth - draggableElement.offsetWidth;
-        const maxY = window.innerHeight - draggableElement.offsetHeight;
-        
-        draggableElement.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
-        draggableElement.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
+      // 开始拖拽
+      draggableElement.addEventListener(startEvent, (e) => {
+        isDragging = true;
+        const clientX = isTouchDevice ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouchDevice ? e.touches[0].clientY : e.clientY;
+        offsetX = clientX - button.getBoundingClientRect().left;
+        offsetY = clientY - button.getBoundingClientRect().top;
+      });
+
+      // 拖拽中
+      document.addEventListener(moveEvent, (e) => {
+        if (isDragging) {
+          const clientX = isTouchDevice ? e.touches[0].clientX : e.clientX;
+          const clientY = isTouchDevice ? e.touches[0].clientY : e.clientY;
+          const x = clientX - offsetX;
+          const y = clientY - offsetY;
+          const maxX = window.innerWidth - button.offsetWidth;
+          const maxY = window.innerHeight - button.offsetHeight;
+          
+          button.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
+          button.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
+        }
+      });
+
+      // 结束拖拽
+      document.addEventListener(endEvent, () => {
+        isDragging = false;
+      });
+
+      // 防止在移动设备上触摸拖动时出现页面滚动
+      if (isTouchDevice) {
+        document.addEventListener('touchmove', (e) => {
+          e.preventDefault();
+        });
       }
-    });
-
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
     </script>
