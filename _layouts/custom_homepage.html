@@ -276,11 +276,14 @@ var _hmt = _hmt || [];
           // draggableElement.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
           draggableElement.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
                  // 当按钮移动超过阈值（设为50px），显示完整按钮
-          if (Math.abs(y) > 50) {
-            draggableElement.style.transform = 'translateX(0)';
-          } else {
-            draggableElement.style.transform = 'translateX(50%)';
-          }
+          // if (Math.abs(y) > 50) {
+          //   draggableElement.style.transform = 'translateX(0)';
+          // } else {
+          //   draggableElement.style.transform = 'translateX(50%)';
+          // }
+
+                // 在拖动时立即显示全部按钮
+          button.style.transform = 'translateX(0)';
         }
       });
 
