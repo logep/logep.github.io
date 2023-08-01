@@ -255,8 +255,8 @@ var _hmt = _hmt || [];
         isDragging = true;
         const clientX = isTouchDevice ? e.touches[0].clientX : e.clientX;
         const clientY = isTouchDevice ? e.touches[0].clientY : e.clientY;
-        offsetX = clientX - button.getBoundingClientRect().left;
-        offsetY = clientY - button.getBoundingClientRect().top;
+        offsetX = clientX - draggableElement.getBoundingClientRect().left;
+        offsetY = clientY - draggableElement.getBoundingClientRect().top;
       });
 
       // 拖拽中
@@ -266,11 +266,11 @@ var _hmt = _hmt || [];
           const clientY = isTouchDevice ? e.touches[0].clientY : e.clientY;
           const x = clientX - offsetX;
           const y = clientY - offsetY;
-          const maxX = window.innerWidth - button.offsetWidth;
-          const maxY = window.innerHeight - button.offsetHeight;
+          const maxX = window.innerWidth - draggableElement.offsetWidth;
+          const maxY = window.innerHeight - draggableElement.offsetHeight;
           
-          button.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
-          button.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
+          draggableElement.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
+          draggableElement.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
         }
       });
 
