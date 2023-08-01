@@ -260,7 +260,7 @@ var _hmt = _hmt || [];
       });
 
       // 拖拽中
-      document.addEventListener(moveEvent, (e) => {
+      draggableElement.addEventListener(moveEvent, (e) => {
         if (isDragging) {
           const clientX = isTouchDevice ? e.touches[0].clientX : e.clientX;
           const clientY = isTouchDevice ? e.touches[0].clientY : e.clientY;
@@ -275,13 +275,13 @@ var _hmt = _hmt || [];
       });
 
       // 结束拖拽
-      document.addEventListener(endEvent, () => {
+      draggableElement.addEventListener(endEvent, () => {
         isDragging = false;
       });
 
       // 防止在移动设备上触摸拖动时出现页面滚动
       if (isTouchDevice) {
-        document.addEventListener('touchmove', (e) => {
+        draggableElement.addEventListener('touchmove', (e) => {
           e.preventDefault();
         });
       }
