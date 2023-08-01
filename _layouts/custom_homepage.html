@@ -21,10 +21,13 @@ var _hmt = _hmt || [];
        #draggable-element {
       position: fixed;
       bottom: 20px;
-      right: 20px;
+    
       width: 100px;
       height: 100px;
-
+ 
+      touch-action: none; /* 禁用默认触摸行为，避免页面滚动 */
+      right: 0; /* 初始位置在右边 */
+      transform: translateX(50%); /* 初始时隐藏一半 */
       color: white;
       text-align: center;
       line-height: 100px;
@@ -80,6 +83,7 @@ var _hmt = _hmt || [];
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
       cursor: pointer;
+               
       transition: transform 0.2s; /* 添加动画效果 */
     }
 
@@ -269,8 +273,14 @@ var _hmt = _hmt || [];
           const maxX = window.innerWidth - draggableElement.offsetWidth;
           const maxY = window.innerHeight - draggableElement.offsetHeight;
           
-          draggableElement.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
+          // draggableElement.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
           draggableElement.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
+                 // 当按钮移动超过阈值（设为50px），显示完整按钮
+          if (Math.abs(y) > 50) {
+            draggableElement.style.transform = 'translateX(0)';
+          } else {
+            draggableElement.style.transform = 'translateX(50%)';
+          }
         }
       });
 
