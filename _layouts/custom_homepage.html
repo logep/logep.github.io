@@ -15,7 +15,7 @@ var _hmt = _hmt || [];
   <!-- ... Your other head content ... -->
   <style>
         body,html{
-              margin:0;
+              margin:8px;
               padding:0;
         }
        #draggable-element {
@@ -162,9 +162,11 @@ var _hmt = _hmt || [];
     <button class="collapsible">colledges</button>
     <!-- colleges分类下的文章列表 -->
     <ul>
+              {% assign pageNumber1 = 1 %}
       {% for page in site.pages %}
         {% if page.url contains '/colledges/' and page.url contains '.html' %}
-          <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+          <li>{{ pageNumber1 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
+            {% assign pageNumber1 = pageNumber1 | plus: 1 %}
         {% endif %}
       {% endfor %}
     </ul>
@@ -173,9 +175,11 @@ var _hmt = _hmt || [];
     <!-- tech分类下的文章列表 -->
       <button class="collapsible">office</button>
     <ul>
+           {% assign pageNumber2 = 1 %}
       {% for page in site.pages %}
         {% if page.url contains '/office/' and page.url contains '.html' %}
-          <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+          <li>{{ pageNumber2 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
+            {% assign pageNumber2 = pageNumber2 | plus: 1 %}
         {% endif %}
       {% endfor %}
     </ul>
@@ -184,9 +188,11 @@ var _hmt = _hmt || [];
     <!-- tech分类下的文章列表 -->
       <button class="collapsible">Tech</button>
     <ul>
+            {% assign pageNumber3 = 1 %}
       {% for page in site.pages %}
         {% if page.url contains '/tech/' and page.url contains '.html' %}
-          <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+          <li>{{ pageNumber3 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
+           {% assign pageNumber3 = pageNumber3 | plus: 1 %}
         {% endif %}
       {% endfor %}
     </ul>
