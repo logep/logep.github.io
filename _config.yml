@@ -27,6 +27,9 @@ collections:
   office:
     output: true
     permalink: /office/:title
+  news:
+    output: true
+    permalink: /news/:title
   sh:
     output: true
     permalink: /sh/search.json  
