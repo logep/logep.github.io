@@ -149,7 +149,8 @@ var _hmt = _hmt || [];
  <div id="category-bar" >
     <button class="category-button" data-target="colledges">Colleges</button>
     <button class="category-button" data-target="tech">Tech</button>
-           <button class="category-button" data-target="office">office</button>
+    <button class="category-button" data-target="office">office</button>
+    <button class="category-button" data-target="news">news</button>
     <!-- 添加更多分类按钮 -->
     <!-- <button class="category-button" data-target="more-categories">More Categories</button> -->
   </div>
@@ -197,7 +198,19 @@ var _hmt = _hmt || [];
       {% endfor %}
     </ul>
   </div>
-
+  <div class="content" id="news">
+    <!-- tech分类下的文章列表 -->
+      <button class="collapsible">news</button>
+    <ul>
+            {% assign pageNumber4 = 1 %}
+      {% for page in site.pages %}
+        {% if page.url contains '/news/' and page.url contains '.html' %}
+          <li>{{ pageNumber4 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
+           {% assign pageNumber4 = pageNumber3 | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
 <script src="https://christian-fei.github.io/Simple-Jekyll-Search/js/jekyll-search.js"></script>
 <!--   <script src="./search.js"></script> -->
     <script type="text/javascript">
