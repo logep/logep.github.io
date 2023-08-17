@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script src="intro.js"></script>
+    <link href=introjs.css rel=stylesheet>
+    <!--<link href=introjs_menu.css rel=stylesheet>-->
+</head>
+<body>
+<style>
+  body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .banner {
+        text-align: center;
+    }
+
+    .banner-desc {
+        padding-top: 20px;
+    }
+
+    .banner-desc h1 {
+        font-size: 34px;
+        margin: 0;
+        line-height: 48px;
+        color: #555;
+    }
+
+    .banner-desc p {
+        font-size: 18px;
+        line-height: 28px;
+        color: #888;
+        margin: 10px 0 5px;
+    }
+
+    .jumbotron {
+        width: 890px;
+        margin: 30px auto;
+        position: relative;
+    }
+
+    .jumbotron img {
+        width: 100%;
+    }
+
+    .jumbotron .jumbotron-red {
+        transition: height .1s;
+        background: #fff;
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+    }
+
+    .cards {
+        margin: 0 auto 110px;
+        width: 1140px;
+    }
+
+    .cards .container {
+        padding: 0;
+        margin: 0 -11px;
+        width: auto;
+    }
+
+    .cards .container:after, .cards .container:before {
+        display: table;
+        content: "";
+    }
+
+    .cards li {
+        width: 25%;
+        padding: 0 19px;
+        box-sizing: border-box;
+        float: left;
+        list-style: none;
+    }
+
+    .card {
+        height: 430px;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #eaeefb;
+        border-radius: 5px;
+        box-sizing: border-box;
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+        transition: all .3s ease-in-out;
+        bottom: 0;
+    }
+
+    .card img {
+        margin: 66px auto 60px;
+    }
+
+    .cards img {
+        width: 160px;
+        height: 120px;
+    }
+
+    .card h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #1f2f3d;
+        font-weight: 400;
+    }
+
+    .card p {
+        font-size: 14px;
+        color: #99a9bf;
+        padding: 0 25px;
+        line-height: 20px;
+    }
+
+    .card a {
+        height: 53px;
+        line-height: 52px;
+        font-size: 14px;
+        color: #409eff;
+        text-align: center;
+        border: 0;
+        border-top: 1px solid #eaeefb;
+        padding: 0;
+        cursor: pointer;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        border-radius: 0 0 5px 5px;
+        transition: all .3s;
+        text-decoration: none;
+        display: block;
+    }
+
+    .card a:hover {
+        color: #fff;
+        background: #409eff
+    }
+
+    .card:hover {
+        bottom: 6px;
+        box-shadow: 0 6px 18px 0 rgba(232, 237, 250, .5)
+    }
+</style>
+<div class="main-cnt">
+    <div>
+        <div class="banner">
+            <div class="banner-desc"><h1>快捷入口</h1>
+                <p>个人网站，有种熟悉的感觉</p></div>
+        </div>
+        <div class="jumbotron"><img src="static/theme-index-blue.c38b733.png"
+                                    alt="">
+            <div class="jumbotron-red" style="height: 0px;"><img
+                    src="static/theme-index-red.c8e136e.png"
+                    alt=""></div>
+        </div>
+        <div class="cards">
+            <ul class="container">
+                <li>
+                    <div class="card calculateSiteBook">
+                        <img src="static/resource.a72b8f8.png">
+                        <h3>电子商务网站</h3>
+                        <p>网站管理后台，有运营/订单/发货/供应商管理。</p>
+                        <a href="unimall/" class="">查看详情</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="card numberManagementTour">
+                        <img src="static/resource.a72b8f8.png">
+                        <h3>电子商务网站</h3>
+                        <p>网站管理后台，有运营/订单/发货/供应商管理。</p>
+                        <a href="unimall/" class="">查看详情</a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="card branchFineTour">
+                        <img src="static/resource.a72b8f8.png">
+                        <h3>电子商务网站</h3>
+                        <p>网站管理后台，有运营/订单/发货/供应商管理。</p>
+                        <a href="unimall/" class="">查看详情</a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    let tourMenu = [];
+    // 一般元素宽高 需固定  没有动态获取值  如果需要虚框 设置宽高
+    let commonHeight = 432,commonWidth = 250 ,specialHeight=120;
+    let sourceMenuTour= [
+        {
+            name: "oneStep",
+            order: 0,
+            key:'1', // 可根据菜单动态赋值 保持和菜单一致
+            intro: "第一步介绍第一步介绍第一步介绍第一步介绍第一步介绍！",
+            element: '.calculateSiteBook',
+            height: commonHeight,
+            // width: commonWidth,
+        },
+        {
+            name: "twoStep",
+            order: 1,
+            rowspan: 3, key:'2',
+            rowspanCls: [".customerManagementTour", ".settlementTour"],
+            intro: "第二步<br>第二步第二步第二步第二步第二步第二步！",
+            element: '.numberManagementTour',
+            height: commonHeight,
+            // width: commonWidth,
+        },
+        {
+            name: "threeStep",
+            order: 8, key:'3',
+            intro: "第三步",
+            element: '.branchFineTour',
+            height: commonHeight,
+            // width: commonWidth,
+        },
+    ]
+
+    //  页面发生变化    intro && intro.refresh();
+    var intro = introJs();
+
+
+    /*
+      // 在 watch里 $route
+        if (intro) {
+        intro.exit()
+        setTimeout(() => {
+          intro = introJs();
+          this.initTour();
+          intro && intro.refresh();
+        }, 1000);
+      }
+     */
+
+    window.onload=function () {
+        initTour();
+    }
+    function  initTour() {
+        let sourceMenu =sourceMenuTour;
+        // 暂定上线
+        // intro = null;
+        // return;
+        //防止结算嵌入iframe
+        if (self != top) {
+            intro = null;
+            return;
+        }
+        if (sourceMenu.length < 1) {
+            intro = null;
+            return;
+        }
+        // getTour({}).then(res => {  若有对接后台 通过getTour方法 自己控制是否展示引导页
+        // 可能某些地方需要 用$nextTick 包裹
+            try {
+                        var nextTour = [...sourceMenu];
+                        let sourceKey = nextTour[0].key;
+                        if (sourceKey && sourceKey.indexOf('-') > -1) {
+                            // 这个地方是控制菜单打开
+                            // this.$refs.menuList.defaultOpen = [sourceKey.split('-')[0]];
+                        } else {
+                            // this.$refs.menuList.defaultOpen = [sourceKey];
+                        }
+
+                            setTimeout(() => {
+                                intro && intro.refresh();
+                                // 这个地方是做跨行处理  没有这个需求可不做 有的话配置 rowspan这个属性值即可
+                                // if (sourceMenu[0].rowspan) {
+                                //     let clsArr = sourceMenu[0].rowspanCls;
+                                //     clsArr.forEach(item => {
+                                //         let ele = document.querySelector(item);
+                                //         if (ele.classList !== undefined) {
+                                //             ele.classList.add('introjs-showElement');
+                                //         }
+                                //     });
+                                // }
+                            }, 350);
+                        var _this = this;
+                        setTimeout(() => {
+                            intro
+                                .setOptions({
+                                    autoWidth: true,
+                                    steps: nextTour,
+                                })
+                                .start()
+                                .onbeforechange(function(ele, step) {
+                                    intro.refresh();
+                                    let sourceKey = nextTour[step].key;
+
+                                    if (sourceKey && sourceKey.indexOf('-') > -1) {
+                                    } else {
+                                    }
+                                })
+                                .onafterchange(function(ele, step) {
+                                    intro.refresh();
+                                        setTimeout(() => {
+                                            intro.refresh();
+                                            if (sourceMenu[step].rowspan) {
+                                                let clsArr = sourceMenu[step].rowspanCls;
+                                                clsArr.forEach(item => {
+                                                    let ele = document.querySelector(item);
+                                                    if (ele.classList !== undefined) {
+                                                        ele.classList.add('introjs-showElement');
+                                                    }
+                                                });
+                                            }
+                                        }, 350);
+                                })
+                                .onexit(function() {
+                                    intro = null;
+                                })
+                                .oncomplete(function(val) {
+                                    if (val) {
+                                        // 向 外暴露接口 不再提醒
+                                        // saveTour();
+                                    }
+                                    // 在这里可以自定义跳转页面  若有需求
+                                    // _this.$router.push({path: '/guide'});
+                                })
+                        }, 500);
+            } catch (e) {
+                intro = null;
+            }
+    }
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?9332ad00214951c910f6ed09668fc95f";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>
