@@ -16,7 +16,8 @@ netstat -nlp | grep :80
 ## 
 redis  安装  redis
 
-
+## 宝塔 连接不上 终端 https://www.bt.cn/bbs/thread-115045-1-1.html
+btpip install simple-websocket==0.10.0 && bt 1
 
 #### eladmin 重要，重要，重要
 eladmin-web or 
