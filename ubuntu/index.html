@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!--<link rel="shortcut icon" href="favicon.ico">-->
+</head>
+<body>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .banner {
+        text-align: center;
+    }
+
+    .banner-desc {
+        padding-top: 20px;
+    }
+
+    .banner-desc h1 {
+        font-size: 34px;
+        margin: 0;
+        line-height: 48px;
+        color: #555;
+    }
+
+    .banner-desc p {
+        font-size: 18px;
+        line-height: 28px;
+        color: #888;
+        margin: 10px 0 5px;
+    }
+
+    .jumbotron {
+        width: 890px;
+        margin: 30px auto;
+        position: relative;
+    }
+
+    .jumbotron img {
+        width: 100%;
+    }
+
+    .jumbotron .jumbotron-red {
+        transition: height .1s;
+        background: #fff;
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+    }
+
+    .cards {
+        margin: 0 auto 110px;
+        width: 1140px;
+    }
+
+    .cards .container {
+        padding: 0;
+        margin: 0 -11px;
+        width: auto;
+    }
+
+    .cards .container:after, .cards .container:before {
+        display: table;
+        content: "";
+    }
+
+    .cards li {
+        width: 25%;
+        padding: 0 19px;
+        box-sizing: border-box;
+        float: left;
+        list-style: none;
+    }
+
+    .card {
+        height: 430px;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #eaeefb;
+        border-radius: 5px;
+        box-sizing: border-box;
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+        transition: all .3s ease-in-out;
+        bottom: 0;
+    }
+
+    .card img {
+        margin: 66px auto 60px;
+    }
+
+    .cards img {
+        width: 160px;
+        height: 120px;
+    }
+
+    .card h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #1f2f3d;
+        font-weight: 400;
+    }
+
+    .card p {
+        font-size: 14px;
+        color: #99a9bf;
+        padding: 0 25px;
+        line-height: 20px;
+    }
+
+    .card a {
+        height: 53px;
+        line-height: 52px;
+        font-size: 14px;
+        color: #409eff;
+        text-align: center;
+        border: 0;
+        border-top: 1px solid #eaeefb;
+        padding: 0;
+        cursor: pointer;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        border-radius: 0 0 5px 5px;
+        transition: all .3s;
+        text-decoration: none;
+        display: block;
+    }
+
+    .card a:hover {
+        color: #fff;
+        background: #409eff
+    }
+
+    .card:hover {
+        bottom: 6px;
+        box-shadow: 0 6px 18px 0 rgba(232, 237, 250, .5)
+    }
+
+</style>
+
+<div class="main-cnt">
+    <div>
+        <div class="banner">
+            <div class="banner-desc"><h1>快捷入口</h1>
+                <p>个人网站，有种熟悉的感觉</p></div>
+        </div>
+        <div class="jumbotron"><img src="static/theme-index-blue.c38b733.png"
+                                    alt="">
+            <div class="jumbotron-red" style="height: 0px;"><img
+                    src="static/theme-index-red.c8e136e.png"
+                    alt=""></div>
+        </div>
+        <div class="cards">
+            <ul class="container">
+                <li>
+                    <div class="card">
+                        <img src="static/resource.a72b8f8.png">
+                        <h3>电子商务网站</h3>
+                        <p>网站管理后台，有运营/订单/发货/供应商管理。</p>
+                        <a href="unimall/" class="">查看详情</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="card">
+                        <img src="static/resource.a72b8f8.png">
+                        <h3>网站菜单引导页</h3>
+                        <p>网站菜单或者其他页面元素引导，直接上手用。</p>
+                        <a href="tour/tour.html" class="">查看详情</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="card">
+                        <img src="static/resource.a72b8f8.png">
+                        <h3>自适应抽奖</h3>
+                        <p>可以适用各场合，支持定制，直接上手用。</p>
+                        <a href="web/zhuanpan.html" class="">查看详情</a>
+                    </div>
+                </li>
+
+                
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    /*
+     测试两个windows 自带事件
+     原生手写 throttle
+     获取dom元素高度 并通过style设置height高度
+     */
+
+    /**
+     * @desc 函数节流
+     * @param func 函数
+     * @param wait 延迟执行毫秒数
+     * @param immediate true 表时间戳版（前沿触发），false 表定时器版（后沿触发）
+     *
+     */
+    function throttle(wait ,immediate,func) {
+        let previous = 0,timeout;
+        // if(immediate){
+        //     let previous = 0;
+        // }else if(!immediate){
+        //     let timeout;
+        // }
+        return function() {
+            let context = this;
+            let args = arguments;
+            if(immediate){
+                let now = Date.now();
+
+                if (now - previous > wait) { // 初始状态下先执行一次事件函数，并且以当前时间戳为时间起点，往后只有经过的时间大于一个周期后触发th函数才会更新时间的起点并且执行事件函数
+                    func.apply(context, args);
+                    previous = now;
+                }
+            }else if(!immediate){
+                if (!timeout) { // 初始状态下设置定时器，只有在定时器执行后（执行时间函数+初始化状态）才能重新设置
+                    timeout = setTimeout(() => {
+                        timeout = null;
+                        func.apply(context, args)
+                    }, wait)
+                }
+            }
+        }
+    }
+    /**
+     * @desc 函数防抖
+     * @param func 函数
+     * @param wait 延迟执行毫秒数
+     * @param immediate true 表立即执行(前沿触发)，false 表非立即执行（后沿触发）
+     */
+    function debounce(wait,immediate,func) {
+        let timeout;
+
+        return function () {
+            let context = this;
+            let args = arguments;
+
+            if (timeout) clearTimeout(timeout); // timeout是定时器ID，只有初始化状态下第一次触发的时候才不会执行；后续在周期内触发db函数会清除定时器，避免在周期内初始化timeout导致事件函数被执行
+            if (immediate) {
+                var callNow = !timeout;
+                timeout = setTimeout(() => {
+                    timeout = null; // 如果周期内db函数未触发，则重新初始化timeout
+                }, wait)
+                if (callNow) func.apply(context, args) // 初始化状态下，立即执行事件函数
+            }
+            else {
+                timeout = setTimeout(function(){ // 在周期内db函数被触发会更新定时器，延迟事件函数的执行
+                    func.apply(context, args)
+                }, wait);
+            }
+        }
+    }
+    var throttledHandleScroll =debounce(10, !1, function (e) {
+        console.log("11111111111")
+        handleScroll(e)
+        console.log("2222222")
+    })
+
+    function handleScroll(e) {
+        var t = document.querySelector(".jumbotron")
+            , n = t.getBoundingClientRect()
+            , a = t.clientHeight + 55
+            , l = 2 * (136 - n.top);
+        l < 0 && (l = 0),
+        a < l && (l = a),
+            document.querySelector(".jumbotron-red").style.height = l+"px"
+    }
+
+    window.onbeforeunload = function (e) {
+        // console.log("leave")
+        // window.removeEventListener("scroll", throttledHandleScroll)
+    }
+    window.onload = function (e) {
+        console.log("enter")
+        window.addEventListener("scroll", throttledHandleScroll)
+
+    }
+
+
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?771b81fb00a5c4461c68b8df8b8ad047";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>
