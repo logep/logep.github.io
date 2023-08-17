@@ -20,3 +20,11 @@ eladmin-web or
         location /api {
             proxy_pass http://127.0.0.1:8087;
         }
+
+
+## 权限管理系统  iview
+        location /unimall {
+            alias /www/unimall/;
+##  unimall admin
+                   location /unimall_Ali {
+            alias /www/unimall-admin/;
