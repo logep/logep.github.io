@@ -60,3 +60,15 @@ redis-cli -a yourpassword
 将 `yourpassword` 替换为你设置的实际密码。这样就可以通过命令行连接到 Redis 并进行操作了。
 
 请记住，Redis 密码是安全性的一部分，务必妥善保管好密码，不要将其泄露。
+
+
+
+## error
+
+Job for redis-server.service failed because the control process exited with error code.
+See "systemctl status redis-server.service" and "journalctl -xeu redis-server.service" for details.
+
+用此命令 检查
+
+sudo redis-server /etc/redis/redis.conf --test
+、命令模式下(按ESC)输入“/字符串”，例如“/port”，然后按回车2、如果查找下一个，按“n”即可
