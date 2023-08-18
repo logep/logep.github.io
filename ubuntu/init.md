@@ -28,6 +28,10 @@ eladmin-web or
         location /api {
             proxy_pass http://127.0.0.1:8087;
         }
+                location /auth {
+            proxy_pass http://127.0.0.1:8087;
+        }
+
 
 
 ## 权限管理系统  iview https://github.com/logep/view-ui-admin  重要，重要，重要
