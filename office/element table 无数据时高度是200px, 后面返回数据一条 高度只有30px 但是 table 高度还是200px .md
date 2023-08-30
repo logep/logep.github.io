@@ -46,6 +46,19 @@
          this.$nextTick(() => {
            const tableContainer = this.$refs.myTable.$el.querySelector('.el-table__body-wrapper');
            tableContainer.style.height = tableContainer.scrollHeight + 'px';
+    // 第二种方法 用tr高度计算
+        const tableContainer = this.$refs.myTable.$el.querySelector('.el-table__body-wrapper');
+        const tableRows = tableContainer.querySelectorAll('.el-table__row');
+        let totalHeight = 0;
+
+        // 计算所有行的高度之和
+        tableRows.forEach(row => {
+          totalHeight += row.offsetHeight;
+        });
+
+        // 设置表格容器的高度为计算得到的总高度
+        tableContainer.style.height = totalHeight + 'px';
+      });
          });
        }
      },
