@@ -1,3 +1,12 @@
+
+
+https://github.com/Microsoft/vcpkg
+vcpkg  C++ Library Manager for Windows, Linux, and MacOS
+To install the libraries for your project, run:
+> .\vcpkg\vcpkg install [packages to install]
+/////////////////////////////////////////////////////////////////////////
+
+
 在 Windows 上搭建和运行 C++ 开发环境通常需要安装一个 C++ 编译器和集成开发环境（IDE），例如 Visual Studio 或 Code::Blocks。以下是在 Windows 上搭建 C++ 开发环境的一般步骤：
 
 **安装 C++ 编译器：**
