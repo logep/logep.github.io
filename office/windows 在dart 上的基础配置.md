@@ -39,3 +39,43 @@
    - 使用你选择的编辑器或 IDE 创建 Dart 项目，然后开始编写和运行 Dart 代码。
 
 现在，你已经成功配置了 Dart 语言环境，并可以开始使用 Dart 开发应用程序。希望这些步骤对你有所帮助。如果你在配置过程中遇到问题，请随时提问。
+
+
+
+如果您的 Dart SDK 的 `bin` 目录只包含 `dart.exe` 而没有 `pub`（用于管理 Dart 依赖包的工具），那么在运行 Dart 文件时，您可以使用以下方法：
+
+1. **使用 `dart` 命令运行 Dart 文件：**
+
+   您可以使用 `dart` 命令来运行 Dart 文件。打开终端（命令提示符或终端窗口），然后导航到包含您的 Dart 文件的目录，并运行以下命令：
+
+   ```bash
+   dart your_file.dart
+   ```
+
+   其中 `your_file.dart` 是您要运行的 Dart 文件的名称。
+
+2. **创建 Dart 包并使用 `pub run`：**
+
+   如果您要管理依赖并运行 Dart 文件，但缺少 `pub` 命令，您可以使用以下方法：
+
+   - 首先，创建一个 Dart 包。在包的根目录下创建一个 `pubspec.yaml` 文件，然后列出您的 Dart 文件和依赖项。
+
+   - 使用 `pub` 命令（如果您的系统上没有 `pub`，您可以从 Dart SDK 的 `bin` 目录手动运行 `dart pub`）来获取依赖项：
+
+     ```bash
+     dart pub get
+     ```
+
+   - 使用 `pub run` 命令来运行您的 Dart 文件。假设您的 Dart 文件在 `bin` 目录下，并且它的入口文件是 `main.dart`，您可以运行：
+
+     ```bash
+     dart pub run your_package_name:main.dart
+     ```
+
+     其中 `your_package_name` 是您的包的名称，`main.dart` 是您的入口文件的名称。
+
+3. **手动安装 `pub` 工具：**
+
+   如果您确实需要 `pub` 工具来管理依赖，但没有找到它，请确保您的 Dart SDK 安装正确。您应该能够在 Dart SDK 的 `bin` 目录中找到 `pub.bat`（Windows）或 `pub`（Linux/macOS）。如果确实缺少它，请考虑重新安装 Dart SDK。
+
+请根据您的需求选择适合您情况的方法，并确保 Dart SDK 安装正确以便运行 Dart 文件。
