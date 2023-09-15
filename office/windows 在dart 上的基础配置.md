@@ -79,3 +79,36 @@
    如果您确实需要 `pub` 工具来管理依赖，但没有找到它，请确保您的 Dart SDK 安装正确。您应该能够在 Dart SDK 的 `bin` 目录中找到 `pub.bat`（Windows）或 `pub`（Linux/macOS）。如果确实缺少它，请考虑重新安装 Dart SDK。
 
 请根据您的需求选择适合您情况的方法，并确保 Dart SDK 安装正确以便运行 Dart 文件。
+
+
+
+It looks like you're encountering an issue related to Flutter dependencies in your Dart project, and it's complaining about the Flutter SDK not being available. Here are a few steps you can take to resolve this issue:
+
+1. **Check Flutter Installation:**
+   Make sure you have Flutter installed on your system. If you haven't already installed Flutter, you can follow the installation instructions on the Flutter website: https://flutter.dev/docs/get-started/install
+
+2. **Specify a Dart-Only Environment:**
+   If you're working on a Dart project that doesn't require Flutter, you can specify a Dart-only environment in your `pubspec.yaml` file. This will prevent Flutter-related issues.
+
+   In your `pubspec.yaml` file, specify the Dart SDK version without any Flutter dependencies:
+
+   ```yaml
+   environment:
+     sdk: '>=2.12.0 <3.0.0'
+   ```
+
+   Replace the version range with the Dart SDK version you want to use.
+
+3. **Re-run `pub get`:**
+   After making changes to your `pubspec.yaml` file, run `pub get` to fetch the updated dependencies:
+
+   ```bash
+   dart pub get
+   ```
+
+   If you're using Flutter, you can use `flutter pub get` instead.
+
+4. **Check `pubspec.yaml` for Flutter Dependencies:**
+   If your Dart project is inadvertently dependent on Flutter, review your `pubspec.yaml` file to ensure that you haven't included any Flutter dependencies unintentionally. Remove any dependencies related to Flutter if your project is Dart-only.
+
+By following these steps, you should be able to resolve the issue related to Flutter dependencies in your Dart project.
