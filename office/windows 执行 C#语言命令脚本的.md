@@ -59,3 +59,49 @@ class Program
    执行后，该程序将向指定 URL 发送请求并显示返回的内容。
 
 请确保您的计算机上已安装 .NET SDK 或 .NET Framework，以便编译和运行 C# 程序。如果您没有安装，请从 Microsoft 的官方网站下载并安装：https://dotnet.microsoft.com/download/dotnet
+
+
+
+如果您在命令提示符或 PowerShell 中运行 `csc` 命令时收到 "没有 csc 命令" 的错误消息，这表示 C# 编译器没有正确安装或其路径未包含在系统的 PATH 环境变量中。
+
+要解决这个问题，您可以尝试以下步骤：
+
+1. **确保 .NET SDK 或 .NET Framework 已正确安装**：
+
+   - 对于 .NET Core（现在称为 .NET 5+）：确保您已经安装了最新版本的 .NET SDK。您可以从 Microsoft 的官方网站下载并安装：https://dotnet.microsoft.com/download/dotnet
+
+   - 对于 .NET Framework：确保您的计算机上已安装了 .NET Framework。您可以在 Windows 控制面板的 "程序和功能" 中检查是否已安装。
+
+2. **检查 PATH 环境变量**：
+
+   检查系统的 PATH 环境变量是否包含 .NET SDK 或 .NET Framework 的安装路径。以下是一些可能的路径：
+
+   - 对于 .NET Core 或 .NET 5+：`C:\Program Files\dotnet\`
+   - 对于 .NET Framework（根据您的安装版本可能有所不同）：`C:\Windows\Microsoft.NET\Framework\v4.0.30319\`
+
+   如果在 PATH 中没有包含这些路径，请手动添加它们。
+
+3. **重新启动命令提示符或 PowerShell**：
+
+   在进行环境变量更改后，您可能需要关闭并重新打开命令提示符或 PowerShell 窗口，以使更改生效。
+
+4. **使用完整路径运行 csc**：
+
+   如果您仍然无法在命令行中运行 `csc` 命令，可以尝试使用完整路径来运行编译器。例如：
+
+   - 对于 .NET Core 或 .NET 5+：`C:\Program Files\dotnet\csc`
+   - 对于 .NET Framework：`C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc`
+
+   使用上述路径中的一个，然后提供您的 C# 源代码文件作为参数。例如：
+
+   ```shell
+   "C:\Program Files\dotnet\csc" GetWeiboHotSearch.cs
+   ```
+
+   或者：
+
+   ```shell
+   "C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc" GetWeiboHotSearch.cs
+   ```
+
+这些步骤中的一种或多种应该可以帮助您解决 "没有 csc 命令" 的问题，并使您能够正确编译和运行 C# 程序。
