@@ -92,3 +92,43 @@ dotnet new console
 这将创建一个基本的控制台应用程序项目，并生成一个 `.csproj` 文件。然后，您可以按照上述步骤添加依赖项。
 
 通过这些步骤，您可以在 Visual Studio Code 中轻松添加和管理 C# 项目的 NuGet 依赖项。如果您使用其他 IDE，也应该有类似的方法来添加依赖项。
+
+
+
+您可以使用 `dotnet new` 命令来创建一个新的 .NET 项目。以下是一些常见的示例：
+
+1. 创建一个新的控制台应用程序项目：
+
+```bash
+dotnet new console -n MyConsoleApp
+```
+
+上述命令会创建一个名为 `MyConsoleApp` 的新控制台应用程序项目。
+
+2. 创建一个新的类库项目：
+
+```bash
+dotnet new classlib -n MyLibrary
+```
+
+上述命令会创建一个名为 `MyLibrary` 的新类库项目。
+
+3. 创建一个新的 ASP.NET Core Web 应用程序项目：
+
+```bash
+dotnet new web -n MyWebApp
+```
+
+上述命令会创建一个名为 `MyWebApp` 的新 ASP.NET Core Web 应用程序项目。
+
+您可以根据自己的需求选择不同的项目模板，并使用 `-n` 选项来指定项目的名称。创建项目后，您可以使用 `dotnet build` 命令来构建项目，使用 `dotnet run` 命令来运行项目。
+
+如果您需要更多的项目模板选项，可以运行 `dotnet new --list` 命令查看可用的模板列表。
+
+例如，要创建一个 F# 控制台应用程序项目，您可以运行：
+
+```bash
+dotnet new console -lang F# -n MyFSharpApp
+```
+
+这将创建一个名为 `MyFSharpApp` 的 F# 控制台应用程序项目。
