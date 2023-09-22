@@ -100,3 +100,43 @@ C++ REST SDK，也称为 Casablanca，目前由 Microsoft 开发和维护。你�
 5. 运行程序：编译完成后，你可以运行生成的可执行文件 `myprogram.exe`。
 
 以上步骤中，需要确保正确设置了 vcpkg 的路径和 Casablanca 的路径。这些路径可能会根据你的安装和文件结构而有所不同。如果你遇到问题，请查阅 vcpkg 和 Casablanca 的文档以获取更详细的说明和指导。
+
+
+
+
+
+
+这个错误表明编译过程中找不到 boost/asio/ssl.hpp 文件，这是因为 Casablanca (C++ REST SDK) 依赖于 Boost C++ 库的一部分。为了解决这个问题，你需要确保 Boost 库已经正确安装并配置。
+
+以下是一些可能的解决方法：
+
+1. 安装 Boost 库：
+
+   - 在 Windows 上，你可以使用 vcpkg 来安装 Boost 库，方法如下：
+
+     ```
+     vcpkg install boost
+     ```
+
+     这将安装 Boost 库及其相关依赖项。
+
+   - 如果你选择手动安装 Boost，你需要从 Boost 官方网站下载并安装 Boost C++ 库。下载地址为：[Boost 官方网站](https://www.boost.org/users/download/)。
+
+2. 设置 Boost 库的包含路径和库路径：
+
+   - 在你的 g++ 命令中，确保你设置了正确的包含路径 (`-I`) 和库路径 (`-L`)，以便编译器可以找到 Boost 库。例如：
+
+     ```
+     g++ -o myprogram myprogram.cpp -I<path-to-boost-include> -L<path-to-boost-lib> -lcpprest -lboost_system -lboost_thread -lboost_chrono -lboost_date_time -lboost_atomic
+     ```
+
+     请将 `<path-to-boost-include>` 替换为 Boost 头文件的路径，将 `<path-to-boost-lib>` 替换为 Boost 库文件的路径。
+
+3. 确保你的代码中正确地包含 Casablanca 和 Boost 的头文件：
+
+   ```cpp
+   #include <cpprest/http_client.h>
+   #include <boost/asio/ssl.hpp>
+   ```
+
+如果你按照以上步骤操作并仍然遇到问题，请确保你的 Boost 库已正确安装，并且路径设置正确。如果问题仍然存在，你可能需要仔细检查你的编译和链接命令，以确保所有依赖项都被正确地包含和链接到你的项目中。
