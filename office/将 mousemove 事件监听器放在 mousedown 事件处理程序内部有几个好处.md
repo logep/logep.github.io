@@ -133,16 +133,6 @@ reminderDiv.style.transformOrigin = 'top left';
 4. **考虑使用库或框架：** 一些 JavaScript 动画库或框架如 GreenSock Animation Platform (GSAP) 可以帮助你更轻松地管理动画和拖动效果，并提供更好的性能。
 
 如果上述方法仍然无法解决问题，那么可能需要更多的性能优化和调试，具体取决于你的页面和应用程序的特定要求。
-// ==UserScript==
-// @name         My Page Reminder
-// @namespace    http://ping.com
-// @version      0.1
-// @description  Display a reminder on specific pages.
-// @match        *://e.zto.com/*
-// @match        *://*.zt-express.com/*
-// @grant        GM_setValue
-// @grant        GM_getValue
-// ==/UserScript==
 
 (function() {
     'use strict';
