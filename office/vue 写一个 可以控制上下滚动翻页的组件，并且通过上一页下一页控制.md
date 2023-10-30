@@ -19,12 +19,21 @@ export default {
       pages: 0,
     };
   },
+  pages() {
+
+      return this.$refs.content.children.length
+    }
   mounted() {
     this.pages = this.$refs.content.children.length;
   },
   methods: {
     scrollPage(direction) {
       const nextPage = this.currentPage + direction;
+  let pages = Math.ceil(this.pages / 10)
+      if (nextPage >= 0 && nextPage < pages) {
+        this.currentPage = nextPage
+        this.$refs.content.style.transform = `translateY(-${nextPage * 100}%)`
+      }
       if (nextPage >= 0 && nextPage < this.pages) {
         this.currentPage = nextPage;
         this.$refs.content.style.transform = `translateY(-${nextPage * 100}%)`;
