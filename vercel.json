@@ -1,7 +1,6 @@
 {
   "functions": {
     "build-and-deploy": {
-      "source": "build-command",
       "maxDuration": 300
     }
   },
