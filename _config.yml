@@ -15,7 +15,7 @@ plugins:
 #   data_source: _layouts/search.json
   
 # 定义导航信息
-navigation: _layouts/navigation.yml
+# navigation: _layouts/navigation.yml
 # navigation:
 #   - Home: /
 #   - About: /about
