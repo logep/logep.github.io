@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "build-and-deploy": {
+      "source": "build-command",
+      "maxDuration": 300
+    }
+  },
+  "routes": [
+    {
+      "src": "/build",
+      "dest": ".vercel/functions/build-and-deploy"
+    }
+  }
+}
