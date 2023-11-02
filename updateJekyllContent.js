@@ -42,7 +42,7 @@ ${fileContent}
 
   // 更新 Jekyll 导航文件
   const navigationFile = '_data/navigation.yml';
-  fs.writeFileSync(navigationFile, `links:\n  - ${navigation.join('\n  - ')}`);
+  fs.appendFileSync(navigationFile, `links:\n  - ${navigation.join('\n  - ')}`);
 
   // 更新 Jekyll 页面文件
   const jekyllFolder = '_posts'; // 你的 Jekyll 页面文件夹
