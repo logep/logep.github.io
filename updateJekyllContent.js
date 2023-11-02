@@ -37,7 +37,7 @@ ${fileContent}
 
     // 添加导航链接和页面内容
    // navigation.push(`<li><a href="/${file}.html">${file}</a></li>`);
-     navigation.push(`\n- title: ${file}\n url: /all/${file}.html`);
+     navigation.push(`\n- title: ${file}\n  url: /all/${file}.html`);
     pageContents.push(pageContent);
   }
 
