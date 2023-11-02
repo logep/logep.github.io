@@ -144,7 +144,7 @@ var _hmt = _hmt || [];
     <!-- The search results will be displayed here -->
   </ul>
 <pre>
-{{ site.pages | jsonify }}
+<!-- {{ site.pages | jsonify }} -->
 </pre>
 
 <nav>
@@ -196,6 +196,7 @@ var _hmt = _hmt || [];
       {% endfor %}
     </ul>
   </div>
+
   <div class="content" id="tech">
     <!-- tech分类下的文章列表 -->
       <button class="collapsible">Tech</button>
@@ -218,6 +219,19 @@ var _hmt = _hmt || [];
         {% if page.url contains '/news/' and page.url contains '.html' %}
           <li>{{ pageNumber4 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
            {% assign pageNumber4 = pageNumber3 | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="content" id="tech">
+    <!-- tech分类下的文章列表 -->
+      <button class="collapsible">Tech</button>
+    <ul>
+            {% assign pageNumber5 = 1 %}
+      {% for page in site.pages %}
+        {% if page.url contains '/java/' and page.url contains '.html' %}
+          <li>{{ pageNumber5 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
+           {% assign pageNumber5 = pageNumber5 | plus: 1 %}
         {% endif %}
       {% endfor %}
     </ul>
