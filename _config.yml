@@ -21,6 +21,18 @@ navigation: _layouts/navigation.yml
 #   - About: /about
 #   - Blog: /blog
 #   - Contact: /contact
+# - title: Home
+#   url: /
+
+# - title: About
+#   url: /about
+
+# - title: Blog
+#   url: /blog
+
+# - title: Contact
+#   url: /contact
+
 
 # Collections
 collections:
