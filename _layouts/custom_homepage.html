@@ -147,7 +147,7 @@ var _hmt = _hmt || [];
 <nav>
   <ul>
     {% for link in site.data.navigation %}
-      <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
+      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
     {% endfor %}
   </ul>
 </nav>
