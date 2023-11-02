@@ -133,3 +133,67 @@ updateJekyllContent();
 这是一个简单的示例，它假设你的 Jekyll 项目使用 YAML 数据文件来存储导航信息（`_data/navigation.yml`），并且将文件夹内的每个文件作为单独的页面进行渲染。你需要根据你的 Jekyll 项目实际情况来编写自定义的更新逻辑，包括导航文件、页面文件、模板等的处理。
 
 确保适应你的项目结构和需要进行进一步的自定义，以满足你的需求。
+
+
+
+
+### 指定多个文件夹
+
+
+const fs = require('fs');
+const path = require('path');
+
+// 定义多个文件夹路径
+const folderPaths = [
+  'path/to/first/folder',
+  'path/to/second/folder',
+  'path/to/third/folder'
+];
+
+// 遍历多个文件夹路径
+for (const folderPath of folderPaths) {
+  updateJekyllContent(folderPath);
+}
+
+// 更新 Jekyll 内容的函数
+function updateJekyllContent(folderPath) {
+  // 读取文件夹内的文件列表
+  const files = fs.readdirSync(folderPath);
+
+  // 生成导航链接和页面内容
+  const navigation = [];
+  const pageContents = [];
+
+  for (const file of files) {
+    const filePath = path.join(folderPath, file);
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+
+    // 根据文件内容生成页面内容
+    const pageContent = `
+---
+layout: default
+title: ${file}
+---
+
+${fileContent}
+`;
+
+    // 添加导航链接和页面内容
+    navigation.push(`<li><a href="/${file}.html">${file}</a></li>`);
+    pageContents.push(pageContent);
+  }
+
+  // 更新 Jekyll 导航文件
+  const navigationFile = '_data/navigation.yml';
+  fs.writeFileSync(navigationFile, `links:\n  - ${navigation.join('\n  - ')}`);
+
+  // 更新 Jekyll 页面文件
+  const jekyllFolder = '_posts'; // 你的 Jekyll 页面文件夹
+  for (let i = 0; i < pageContents.length; i++) {
+    const pageFileName = `${i + 1}-${files[i]}.md`;
+    fs.writeFileSync(path.join(jekyllFolder, pageFileName), pageContents[i]);
+  }
+
+  console.log(`Updated Jekyll content for folder: ${folderPath}`);
+}
+
