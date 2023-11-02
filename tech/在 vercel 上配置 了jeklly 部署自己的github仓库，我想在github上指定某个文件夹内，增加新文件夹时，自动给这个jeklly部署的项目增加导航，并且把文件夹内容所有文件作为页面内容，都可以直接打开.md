@@ -197,3 +197,94 @@ ${fileContent}
   console.log(`Updated Jekyll content for folder: ${folderPath}`);
 }
 
+
+### 多个文件夹下还有多个文件夹处理方式
+
+如果某些文件夹内还包含子文件夹，但你希望将子文件夹的内容制作成页面，并在一级导航下显示，你可以修改更新逻辑，将子文件夹内的内容提取出来并创建一级导航链接。以下是一个示例，演示如何处理这种情况：
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+
+// 定义多个文件夹路径
+const folderPaths = [
+  'path/to/first/folder',
+  'path/to/second/folder',
+  'path/to/third/folder'
+];
+
+// 更新 Jekyll 内容的函数
+function updateJekyllContent() {
+  // 生成导航链接和页面内容
+  const navigation = [];
+  const pageContents = [];
+
+  // 遍历多个文件夹路径
+  for (const folderPath of folderPaths) {
+    // 读取文件夹内的文件和子文件夹
+    const items = fs.readdirSync(folderPath);
+
+    for (const item of items) {
+      const itemPath = path.join(folderPath, item);
+      const isDirectory = fs.statSync(itemPath).isDirectory();
+
+      if (isDirectory) {
+        // 如果是子文件夹，将其内容提取出来
+        const subFolderItems = fs.readdirSync(itemPath);
+
+        for (const subItem of subFolderItems) {
+          const subItemPath = path.join(itemPath, subItem);
+          const subItemContent = fs.readFileSync(subItemPath, 'utf-8');
+
+          // 创建页面内容
+          const pageContent = `
+---
+layout: default
+title: ${subItem}
+---
+
+${subItemContent}
+`;
+
+          // 添加页面内容
+          pageContents.push(pageContent);
+        }
+      } else {
+        // 如果是文件，将文件内容提取出来
+        const fileContent = fs.readFileSync(itemPath, 'utf-8');
+
+        // 创建页面内容
+        const pageContent = `
+---
+layout: default
+title: ${item}
+---
+
+${fileContent}
+`;
+
+        // 添加页面内容和一级导航链接
+        navigation.push(`<li><a href="/${item}.html">${item}</a></li>`);
+        pageContents.push(pageContent);
+      }
+    }
+  }
+
+  // 更新 Jekyll 导航文件
+  const navigationFile = '_data/navigation.yml';
+  fs.writeFileSync(navigationFile, `links:\n  - ${navigation.join('\n  - ')}`);
+
+  // 更新 Jekyll 页面文件
+  const jekyllFolder = '_posts'; // 你的 Jekyll 页面文件夹
+  for (let i = 0; i < pageContents.length; i++) {
+    const pageFileName = `${i + 1}.md`;
+    fs.writeFileSync(path.join(jekyllFolder, pageFileName), pageContents[i]);
+  }
+
+  console.log('Updated Jekyll content');
+}
+
+updateJekyllContent();
+```
+
+这个示例中，我们首先遍历文件夹路径列表，然后在每个文件夹内遍历文件和子文件夹。如果遇到子文件夹，我们会将子文件夹内的内容提取出来并创建页面。如果是文件，我们将文件内容提取出来并创建页面。最后，我们将页面内容添加到 Jekyll 页面文件夹中，并创建一级导航链接。你可以根据需要进行进一步的自定义。
