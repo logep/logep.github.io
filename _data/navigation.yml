@@ -1,2 +1,11 @@
 - title: Home
   url: /
+
+  - title: My Page Reminder.md
+    url: /all/My Page Reminder.md.html
+  - title: V2EX Auto Sign In.md
+    url: /all/V2EX Auto Sign In.md.html
+  - title: Window Close Confirmation.md
+    url: /all/Window Close Confirmation.md.html
+  - title: 正则替换空行.md
+    url: /all/正则替换空行.md.html
