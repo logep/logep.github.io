@@ -20,13 +20,13 @@ var _hmt = _hmt || [];
         }
        #draggable-element {
       position: fixed;
-      bottom: 20px;
+      bottom: 60px;
     
       width: 100px;
       height: 100px;
  
       touch-action: none; /* 禁用默认触摸行为，避免页面滚动 */
-      right: 0; /* 初始位置在右边 */
+      right: 20px; /* 初始位置在右边 */
       transform: translateX(50%); /* 初始时隐藏一半 */
       color: white;
       text-align: center;
@@ -141,19 +141,18 @@ var _hmt = _hmt || [];
 <input type="text" id="search-input" placeholder="Search for articles...">
 
   <ul id="search-results">
-    <!-- The search results will be displayed here -->
+    <!-- The search results will be displayed here site.pages | jsonify-->
   </ul>
-<pre>
-<!-- {{ site.pages | jsonify }} -->
-</pre>
 
-<nav>
+
+<!-- <nav>
   <ul>
-    {% for link in site.data.navigation %}
-      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-    {% endfor %}
+  for link in site.data.navigation
+     <li><a href=" link.url"> link.title </a></li>
+   endfor 
+       
   </ul>
-</nav>
+</nav> -->
 
 
   <div id="draggable-element">
@@ -162,6 +161,7 @@ var _hmt = _hmt || [];
     <button class="category-button" data-target="tech">Tech</button>
     <button class="category-button" data-target="office">office</button>
     <button class="category-button" data-target="news">news</button>
+         <button class="category-button" data-target="java">java</button>
     <!-- 添加更多分类按钮 -->
     <!-- <button class="category-button" data-target="more-categories">More Categories</button> -->
   </div>
@@ -223,9 +223,9 @@ var _hmt = _hmt || [];
       {% endfor %}
     </ul>
   </div>
-  <div class="content" id="tech">
+  <div class="content" id="java">
     <!-- tech分类下的文章列表 -->
-      <button class="collapsible">Tech</button>
+      <button class="collapsible">java</button>
     <ul>
             {% assign pageNumber5 = 1 %}
       {% for page in site.pages %}
