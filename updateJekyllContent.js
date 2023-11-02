@@ -46,7 +46,8 @@ ${fileContent}
  // fs.appendFileSync(navigationFile, `\n  - ${navigation.join('\n  - ')}`);
  fs.appendFileSync(navigationFile, `${navigation.join('')}`);
   // 更新 Jekyll 页面文件
-  const jekyllFolder = '_posts'; // 你的 Jekyll 页面文件夹
+ // const jekyllFolder = '_posts'; // 你的 Jekyll 页面文件夹
+  const jekyllFolder = 'all' ;
   for (let i = 0; i < pageContents.length; i++) {
     const pageFileName = `${i + 1}-${files[i]}.md`;
     fs.writeFileSync(path.join(jekyllFolder, pageFileName), pageContents[i]);
