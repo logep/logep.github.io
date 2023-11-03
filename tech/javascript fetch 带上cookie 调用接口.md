@@ -11,6 +11,8 @@ headers.append('Cookie', 'cookieName=cookieValue');
 const requestOptions = {
   method: 'GET', // 或其他 HTTP 方法
   headers: headers,
+     credentials: 'include', // 包括凭证（Cookie）
+  mode: 'cors', // 设置为 'cors'
   // 其他选项，如 body、mode、credentials 等
 };
 
