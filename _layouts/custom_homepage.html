@@ -145,8 +145,8 @@ var _hmt = _hmt || [];
   </ul>
 
 <pre>
-       {{site | jsonify}}
-      {{site.nav_array | jsonify}}
+      
+
 </pre>
 
 
@@ -223,59 +223,6 @@ var _hmt = _hmt || [];
 
 
  
-  <div class="content" id="office">
-    <!-- tech分类下的文章列表 -->
-      <button class="collapsible">office</button>
-    <ul>
-           {% assign pageNumber2 = 1 %}
-      {% for page in site.pages %}
-        {% if page.url contains '/office/' and page.url contains '.html' %}
-          <li>{{ pageNumber2 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
-            {% assign pageNumber2 = pageNumber2 | plus: 1 %}
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
-
-  <div class="content" id="tech">
-    <!-- tech分类下的文章列表 -->
-      <button class="collapsible">Tech</button>
-    <ul>
-            {% assign pageNumber3 = 1 %}
-      {% for page in site.pages %}
-        {% if page.url contains '/tech/' and page.url contains '.html' %}
-          <li>{{ pageNumber3 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
-           {% assign pageNumber3 = pageNumber3 | plus: 1 %}
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
-  <div class="content" id="news">
-    <!-- tech分类下的文章列表 -->
-      <button class="collapsible">news</button>
-    <ul>
-            {% assign pageNumber4 = 1 %}
-      {% for page in site.pages %}
-        {% if page.url contains '/news/' and page.url contains '.html' %}
-          <li>{{ pageNumber4 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
-           {% assign pageNumber4 = pageNumber3 | plus: 1 %}
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
-  <div class="content" id="java">
-    <!-- tech分类下的文章列表 -->
-      <button class="collapsible">java</button>
-    <ul>
-            {% assign pageNumber5 = 1 %}
-      {% for page in site.pages %}
-        {% if page.url contains '/java/' and page.url contains '.html' %}
-          <li>{{ pageNumber5 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
-           {% assign pageNumber5 = pageNumber5 | plus: 1 %}
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
 <script src="https://christian-fei.github.io/Simple-Jekyll-Search/js/jekyll-search.js"></script>
 <!--   <script src="./search.js"></script> -->
     <script type="text/javascript">
