@@ -144,6 +144,29 @@ var _hmt = _hmt || [];
     <!-- The search results will be displayed here site.pages | jsonify-->
   </ul>
 
+<pre>
+      {{site.categories| jsonify}}
+</pre>
+
+
+
+{% for category in site.categories %}
+  {% assign pageNumber1 = forloop.index %}
+  {% assign colledges = category[0] %}
+  
+  <div class="content" id="{{ colledges | replace: ' ', '-' }}">
+    <!-- 折叠按钮 -->
+    <button class="collapsible">{{ colledges }}</button>
+    <!-- {{ colledges }} 分类下的文章列表 -->
+    <ul>
+      {% for post in category[1] %}
+        <li>{{ pageNumber1 }}、<a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endfor %}
+
+
 
 <!-- <nav>
   <ul>
@@ -157,11 +180,15 @@ var _hmt = _hmt || [];
 
   <div id="draggable-element">
  <div id="category-bar" >
-    <button class="category-button" data-target="colledges">Colleges</button>
+<!--     <button class="category-button" data-target="colledges">Colleges</button>
     <button class="category-button" data-target="tech">Tech</button>
     <button class="category-button" data-target="office">office</button>
     <button class="category-button" data-target="news">news</button>
-         <button class="category-button" data-target="java">java</button>
+         <button class="category-button" data-target="java">java</button> -->
+
+  {% for item in site.nav_array %}
+       <button class="category-button" data-target="{{item}}">{{item}}</button>
+  {% endfor %}
     <!-- 添加更多分类按钮 -->
     <!-- <button class="category-button" data-target="more-categories">More Categories</button> -->
   </div>
@@ -169,20 +196,32 @@ var _hmt = _hmt || [];
   </div>
 
   <!-- 分类内容 -->
-  <div class="content" id="colledges">
+
+
+
+  {% for item in site.nav_array %}
+   {% assign pageNumber1 = 1 %}
+  {% assign colledges_url = '/' | append: item | append: '/' %}
+   <div class="content" id="{{ item | replace: ' ', '-' }}">
      <!-- 折叠按钮 -->
-    <button class="collapsible">colledges</button>
+    <button class="collapsible">{{item}}</button>
     <!-- colleges分类下的文章列表 -->
     <ul>
-              {% assign pageNumber1 = 1 %}
+
       {% for page in site.pages %}
-        {% if page.url contains '/colledges/' and page.url contains '.html' %}
+             {% assign post_url = page.url %}
+           {% if post_url contains colledges_url and post_url contains '.html' %}
           <li>{{ pageNumber1 }}、<a href="{{ page.url }}">{{ page.name }}</a></li>
             {% assign pageNumber1 = pageNumber1 | plus: 1 %}
         {% endif %}
       {% endfor %}
     </ul>
   </div>
+  {% endfor %}
+
+
+
+ 
   <div class="content" id="office">
     <!-- tech分类下的文章列表 -->
       <button class="collapsible">office</button>
