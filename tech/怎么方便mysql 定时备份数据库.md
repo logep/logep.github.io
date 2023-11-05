@@ -157,3 +157,67 @@ crontab -l -u username
 ```
 
 这将显示指定用户的 crontab 文件中定义的定时任务列表。
+
+
+
+
+### 简单的mysql 备份
+
+
+在Ubuntu服务器上定时备份MySQL数据库，你可以使用`mysqldump`工具来创建数据库备份，然后将备份文件存储在服务器上或将其传输到远程位置。你可以使用Cron作业来自动化这个过程。以下是一般的步骤：
+
+1. **创建备份脚本**：
+
+   首先，创建一个备份脚本，该脚本使用`mysqldump`工具来备份你的MySQL数据库。在终端上创建一个新脚本，例如`backup_mysql.sh`：
+
+   ```bash
+   nano backup_mysql.sh
+   ```
+
+   在脚本中添加以下内容，根据你的MySQL服务器配置进行适当的更改：
+
+   ```bash
+   #!/bin/bash
+
+   # MySQL数据库连接信息
+   DB_USER="your_username"
+   DB_PASS="your_password"
+   DB_NAME="your_database"
+
+   # 备份文件目录
+   BACKUP_DIR="/path/to/backup_directory"
+
+   # 当前日期
+   CURRENT_DATE=$(date +%Y-%m-%d)
+
+   # 使用mysqldump备份数据库
+   mysqldump -u$DB_USER -p$DB_PASS $DB_NAME > $BACKUP_DIR/$DB_NAME-$CURRENT_DATE.sql
+   ```
+
+   确保替换`your_username`，`your_password`，`your_database` 和 `/path/to/backup_directory` 为正确的MySQL连接信息和备份目录。
+
+2. **保存并退出文本编辑器**：
+
+   使用`Ctrl+O`保存文件，然后使用`Ctrl+X`退出文本编辑器。
+
+3. **赋予脚本执行权限**：
+
+   ```bash
+   chmod +x backup_mysql.sh
+   ```
+
+4. **设置Cron作业**：
+
+   使用`crontab -e`命令编辑你的Cron作业列表，然后添加一个新行，指定备份脚本的定时运行：
+
+   ```bash
+   0 2 * * * /path/to/backup_mysql.sh
+   ```
+
+   这个示例中的Cron表达式表示每天凌晨2点运行备份脚本。你可以根据需要自定义备份频率和时间。
+
+5. **定期清理备份**：
+
+   定期清理旧备份文件以避免磁盘空间问题。你可以编写一个额外的脚本来删除旧备份文件，然后将该脚本添加到Cron作业中以定期运行。
+
+这样，你的MySQL数据库备份将在定时的基础上自动创建，并存储在指定的备份目录中。请确保在脚本中保存敏感的数据库凭证，以及在适当的地方进行安全设置，以保护备份文件。
