@@ -1,3 +1,45 @@
+### adguard home 服务 一些设置
+
+上游一些dns服务
+tls://dns.pub
+https://dns.pub/dns-query
+tls://dns.alidns.com
+https://dns.alidns.com/dns-query
+
+bootstrap dns 服务器
+
+119.29.29.29
+119.28.28.28
+223.5.5.5
+223.6.6.6
+
+
+
+ 如果你尝试使用 `systemctl restart network-manager` 命令，但出现 "Unit network-manager.service not found" 的错误消息，这通常意味着 `network-manager` 服务没有安装或未正确配置。
+
+`network-manager` 是 Ubuntu 上负责管理网络连接的服务，通常应该是已经安装并正在运行的。但有时出现这个错误可能有以下几种原因：
+
+1. `network-manager` 未安装：首先确保 `network-manager` 已经安装在你的系统上。你可以使用以下命令来安装它：
+
+   ```bash
+   sudo apt install network-manager
+   ```
+
+2. `network-manager` 服务未正确配置：如果 `network-manager` 已安装但未正确配置，你可以尝试重新配置它：
+
+   ```bash
+   sudo dpkg-reconfigure network-manager
+   ```
+
+3. `network-manager` 服务已被卸载或替代：有时，系统可能使用其他网络管理工具替代了 `network-manager`。在这种情况下，你需要查找系统使用的网络管理工具，以便恢复网络管理功能。
+
+4. 服务名称错误：确保你使用的是正确的服务名称。服务名称是大小写敏感的，所以确保拼写正确。
+
+如果上述方法仍然无法解决问题，你可能需要提供更多关于你的系统配置和错误消息的信息，以便更准确地诊断问题并提供帮助。
+
+
+
+ 
  TCP localhost:domain (LISTEN)
 sudo systemctl stop domain  停止掉ubuntu自带的 domain服务 使用 adguardhome的dns 服务可以么
 sudo systemctl stop domain
