@@ -2,6 +2,44 @@
 
 > 本原文地址 [blog.csdn.net](https://blog.csdn.net/qq_40903527/article/details/127670847)
 
+
+
+The provided code is a Unix command that starts a Java application using the `nohup` command and redirects its output to `/dev/null`, allowing the program to run in the background. Let me break down the command for you:
+
+1. `nohup`: `nohup` stands for "no hang up." It's a Unix command that is used to run another command in such a way that it doesn't terminate when the terminal session ends. This is typically used for running processes in the background, and it prevents the process from being terminated when the user logs out or closes the terminal.
+
+2. `java -jar /home/ping/bak/unimall-launcher-0.0.1-RELEASE.jar`: This part of the command runs a Java application. It uses the `java` command to execute a Java program, specifying the JAR (Java Archive) file to be executed. In this case, it's running the `unimall-launcher-0.0.1-RELEASE.jar` JAR file located at `/home/ping/bak/`.
+
+3. `--spring.profiles.active=prd`: This part of the command sets a Spring profile for the Java application. It's specifying that the "prd" (presumably "production") profile should be active. Spring profiles are often used to configure different application settings for different environments (e.g., development, production).
+
+4. `>/dev/null`: This part redirects the standard output of the command to `/dev/null`, effectively discarding any output that the Java application generates. `/dev/null` is a special device file that essentially acts as a black hole for data. This is often done when you want to run a process in the background without cluttering your terminal with its output.
+
+5. `&`: The ampersand at the end of the command is used to run the entire command in the background. It allows you to continue using the terminal while the Java application runs separately.
+
+In summary, this command starts a Java application (`unimall-launcher-0.0.1-RELEASE.jar`) with a specific Spring profile ("prd") and redirects its standard output to `/dev/null`. The `nohup` command is used to ensure that the process continues running even after the terminal session ends, and the `&` runs the command in the background.
+
+
+
+
+
+提供的代码是一个在Unix/Linux环境下运行Java应用程序的命令，使用`nohup`命令将其输出重定向到`/dev/null`，以便让程序在后台运行。让我为您逐步解释这个命令：
+
+1. `nohup`：`nohup`代表"no hang up"，是一个Unix命令，用于以不会在终端会话结束时终止的方式运行另一个命令。通常用于在后台运行进程，防止在用户退出或关闭终端时终止进程。
+
+2. `java -jar /home/ping/bak/unimall-launcher-0.0.1-RELEASE.jar`：这部分命令运行一个Java应用程序。它使用`java`命令来执行一个Java程序，指定要执行的JAR（Java存档）文件。在这种情况下，它正在运行位于`/home/ping/bak/`目录下的`unimall-launcher-0.0.1-RELEASE.jar` JAR文件。
+
+3. `--spring.profiles.active=prd`：这部分命令为Java应用程序设置了一个Spring配置文件（profile）。它指定了"prd"（可能代表"production"，即生产环境）配置文件应该是活动的。Spring配置文件通常用于配置不同环境（如开发、生产）下的应用程序设置。
+
+4. `>/dev/null`：这部分将命令的标准输出重定向到`/dev/null`，实际上是丢弃Java应用程序生成的任何输出。`/dev/null`是一个特殊的设备文件，实际上是一个数据的黑洞。通常在您希望在后台运行进程而不希望终端显示其输出时使用此选项。
+
+5. `&`：命令末尾的和号（`&`）用于将整个命令在后台运行，这样您可以在Java应用程序在后台运行时继续使用终端。
+
+
+
+
+
+
+
 **目录:**
 
 [一、nohup 详解](#t0)
