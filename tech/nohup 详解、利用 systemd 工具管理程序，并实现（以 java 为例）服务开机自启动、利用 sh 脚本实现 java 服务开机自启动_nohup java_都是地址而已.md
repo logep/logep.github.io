@@ -45,6 +45,23 @@ sudo systemctl start your-service-name
 
 
 
+在 systemd 服务单元配置文件中，`After` 和 `WantedBy` 是两个重要的指令，它们控制服务的启动顺序和依赖关系：
+
+1. `After=`：`After` 指令用于定义服务启动的顺序，即服务应该在哪些系统目标或其他服务之后启动。在您的示例中，`After` 指令列出了多个系统目标（target）和服务单元，包括 `syslog.target`、`network.target`、`remote-fs.target` 和 `nss-lookup.target`。这意味着您的服务会在这些目标（或服务）之后启动。这通常用于确保服务在依赖的服务或系统目标已经准备就绪之后再启动。
+
+2. `WantedBy=`：`WantedBy` 指令用于定义系统目标（target），在该目标下启用了该服务。在您的示例中，`WantedBy` 定义了 `multi-user.target`，这意味着您的服务将在系统进入 `multi-user.target` 时启动，通常这是在系统启动时或用户登录后的多用户模式下启动的服务。
+
+总之，`After` 和 `WantedBy` 指令用于定义服务的启动顺序和依赖关系，以确保服务按照正确的顺序在适当的时机启动。这有助于管理系统中不同服务之间的依赖关系和启动顺序。
+
+
+在 Systemd 服务单元配置文件中，`ExecReload` 和 `ExecStop` 是用于定义服务的重新加载和停止操作的指令。
+
+1. `ExecReload`：这个指令定义了在执行服务的重新加载操作时要运行的命令。重新加载通常用于重新加载配置文件或重新初始化服务，而不需要完全停止和重新启动服务。在您的示例中，`ExecReload` 指定了 `/bin/kill -s HUP $MAINPID` 命令，它发送了一个HUP（Hang Up）信号给主服务进程的 PID（进程标识符）。这通常用于通知服务重新加载其配置或进行某种特定操作。服务本身必须实现对HUP信号的响应以使此操作有效。
+
+2. `ExecStop`：这个指令定义了在执行服务停止操作时要运行的命令。停止操作通常用于完全终止服务。在您的示例中，`ExecStop` 指定了 `/bin/kill -s QUIT $MAINPID` 命令，它发送了一个QUIT信号给主服务进程的 PID，这通常用于优雅地终止服务。服务可以在接收QUIT信号后进行资源清理和关闭操作。
+
+这两个指令的具体命令内容可以根据服务的需要进行定制。通常，`ExecReload` 和 `ExecStop` 的目标是在管理服务的生命周期时执行必要的操作，以确保服务能够正确启动、重新加载和停止。
+
 
 
 The provided code is a Unix command that starts a Java application using the `nohup` command and redirects its output to `/dev/null`, allowing the program to run in the background. Let me break down the command for you:
