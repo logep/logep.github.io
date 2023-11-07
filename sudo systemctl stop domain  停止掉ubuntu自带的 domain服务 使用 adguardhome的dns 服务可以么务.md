@@ -68,3 +68,84 @@ sudo systemctl restart network-manager
 3. mDNS问题：如果你使用多播DNS（mDNS）来发现和通信本地网络中的设备，禁用`systemd-resolved`可能会导致这些功能无法正常工作。
 
 综上所述，停止或禁用Ubuntu系统自带的DNS服务可能会影响网络性能和主机名解析。如果你有特殊需求，可以选择替代的DNS解析服务，但需要确保正确配置和管理，以避免不必要的问题。通常情况下，保持`systemd-resolved`服务处于活动状态是一个良好的做法，因为它有助于提高系统的整体性能。
+
+
+
+
+如果你尝试使用 `sudo systemctl stop domain` 命令来停止名为 `domain` 的服务，但出现 "Unit domain.service not loaded" 的错误消息，那意味着 `domain` 服务并没有以 systemd 服务的形式在系统上加载。这通常意味着该服务不存在或未安装为 systemd 服务。
+
+如果你想停止某个已知服务，你应该使用该服务的正确名称。如果你不确定服务的名称，可以使用 `systemctl` 命令来列出当前正在运行的服务以查找你要停止的服务。例如：
+
+```bash
+systemctl list-units --type=service
+```
+
+然后，找到你要停止的服务的名称，然后使用 `systemctl stop` 命令来停止它。如果你是在寻找某个与 DNS 或域名相关的服务，通常不会有一个名为 `domain` 的系统服务，因此你需要确定确切的服务名称。
+
+如果你能提供更多关于要停止的服务的信息，我将尽力提供更详细的帮助。
+
+
+
+根据你提供的信息，`systemd-resolve` 服务正在监听端口 53，这是 DNS 服务的默认端口。如果你想停止 `systemd-resolve` 服务，可以使用以下命令：
+
+```bash
+sudo systemctl stop systemd-resolved
+```
+
+然后，你可以禁用 `systemd-resolved` 服务，以确保它不会在系统启动时重新启动：
+
+```bash
+sudo systemctl disable systemd-resolved
+```
+
+这些命令将停止并禁用 `systemd-resolved` 服务，这样它将不再监听端口 53，并且不会影响 DNS 解析。如果你打算使用其他的 DNS 服务，例如 AdGuard Home，确保在配置和启动该服务之前，你已经停用了 `systemd-resolved`。
+
+
+
+在Ubuntu上安装AdGuard Home之前停止`systemd-resolved`服务通常不是必须的，但可以是一个好的做法，因为它可以避免与系统DNS服务发生冲突。
+
+`systemd-resolved`是Ubuntu的默认DNS解析服务，它监听端口53，处理DNS查询。如果你计划使用AdGuard Home作为你的DNS服务器，你可以选择停用`systemd-resolved`以避免端口占用和冲突。这可以通过以下步骤完成：
+
+1. 停用`systemd-resolved`服务：
+
+```bash
+sudo systemctl stop systemd-resolved
+```
+
+2. 禁用`systemd-resolved`服务，以确保它在系统启动时不会重新启动：
+
+```bash
+sudo systemctl disable systemd-resolved
+```
+
+3. 启动AdGuard Home并将其配置为DNS服务器。
+
+如果你选择不停用`systemd-resolved`，它仍然可以继续运行，并处理DNS查询。在这种情况下，确保AdGuard Home监听不同的端口，以避免端口冲突。 AdGuard Home通常默认监听在`53`端口之外的其他端口，因此不会与`systemd-resolved`冲突。
+
+
+
+
+
+在华为安卓手机上，你可以为特定的Wi-Fi网络设置自定义DNS服务器。这允许你使用不同的DNS服务器来改善网络性能或访问特定的内容过滤服务。以下是在华为安卓手机上设置自定义DNS的一般步骤：
+
+1. 打开手机的设置应用。
+
+2. 滚动并找到"网络和互联网"或类似的选项，然后点击它。
+
+3. 在"网络和互联网"下，找到"Wi-Fi"并点击它。
+
+4. 找到并点击你要设置自定义DNS的Wi-Fi网络。
+
+5. 在Wi-Fi网络详细信息页面，通常有一个"高级选项"或类似的选项。点击这个选项。
+
+6. 在高级选项中，你应该看到"IP设置"或"IP配置"。点击这个选项。
+
+7. 在IP设置中，选择"静态"或"手动"（取决于你的手机版本）。
+
+8. 现在你可以手动输入自定义的DNS服务器地址。通常，你需要输入两个DNS服务器的地址。这些地址通常由你的DNS服务提供商提供，例如，Google DNS的地址是8.8.8.8和8.8.4.4。如果你想使用AdGuard Home作为DNS服务器，请输入相应的IP地址。
+
+9. 输入完自定义DNS服务器地址后，点击"保存"或"应用"以保存更改。
+
+10. 返回到Wi-Fi设置页面，确保你的Wi-Fi连接是开启状态。
+
+现在，你的手机将使用你为这个特定Wi-Fi网络配置的自定义DNS服务器进行DNS解析。请注意，这些设置仅适用于所选择的Wi-Fi网络，如果你切换到其他网络，你需要重复这些步骤来为其他网络配置自定义DNS。
