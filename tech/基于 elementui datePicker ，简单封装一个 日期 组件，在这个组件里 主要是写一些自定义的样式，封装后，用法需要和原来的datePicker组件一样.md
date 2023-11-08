@@ -330,3 +330,59 @@ console.log('结束日期:', endDate.format('YYYY-MM-DD HH:mm:ss'));
 ```
 
 这两种方法都能将选择的月份区间更改为起始月份的第一天（00:00:00）和结束月份的最后一天（23:59:59）。你可以根据实际需求选择使用 JavaScript 的 `Date` 对象或 Day.js 插件。
+
+
+
+### 全局的样式无其他方法 ，只能每一个应用单独的特别的id包一层
+
+在使用 scoped CSS 样式时，样式将仅适用于当前组件内的元素，而不会影响到在 `body` 中动态生成的元素。如果你希望样式也能应用到动态生成的元素，你可以考虑以下几种方法：
+
+1. **使用全局样式：** 如果你想要的样式应用于整个应用程序，可以考虑将样式定义为全局样式，而不是使用 `scoped` 样式。在 `<style>` 标签中去掉 `scoped`，或者将样式放在全局的 CSS 文件中。
+
+```vue
+<style lang="scss">
+/* 这是全局样式，会影响整个应用 */
+</style>
+```
+
+2. **在父组件中设置动态生成元素的样式：** 如果你有一个父组件动态生成了子组件，可以在父组件中将样式传递给子组件，以便子组件可以应用这些样式。在父组件中使用 `:style` 或 `class` 属性来传递样式或类名给子组件。
+
+```vue
+<template>
+  <div>
+    <dynamic-component :style="dynamicElementStyle"></dynamic-component>
+  </div>
+</template>
+
+<script>
+import DynamicComponent from './DynamicComponent.vue';
+
+export default {
+  components: {
+    DynamicComponent,
+  },
+  data() {
+    return {
+      dynamicElementStyle: {
+        /* 样式属性 */
+      },
+    };
+  },
+};
+</script>
+```
+
+3. **使用深度选择器 `/deep/` 或 `::v-deep`（需要视情况而定）：** Vue 提供了深度选择器 `/deep/` 或 `::v-deep` 来选择动态生成的元素，使样式可以穿透 `scoped` 样式。请注意，深度选择器是深度嵌套组件中使用的，并不是在每个情况下都建议使用。
+
+```vue
+<style lang="scss" scoped>
+/* 通过 /deep/ 或 ::v-deep 选择动态生成的元素 */
+/deep/ {
+  .dynamic-element {
+    /* 样式属性 */
+  }
+}
+</style>
+```
+
+根据你的具体需求，选择其中一种或多种方法来解决动态生成的元素样式问题。全局样式适用于整个应用，而传递样式给子组件或使用深度选择器更具灵活性，可以根据需要进行选择。
