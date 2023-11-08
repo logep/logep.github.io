@@ -242,3 +242,91 @@ dayjs()
                     this.maxDate = maxDate;
                 }
             },
+
+
+
+
+如果弹出的日期选择器是在`body`元素之外渲染的，通常可以通过全局样式或者添加一个自定义的 CSS 类来修改其样式。全局样式是一种常见的方法，但如果你只需要修改特定的日期选择器的样式，你可以使用一些工具或技巧来选择特定的元素，并添加自定义样式。
+
+以下是一些可能的方法：
+
+1. **全局样式：** 使用全局样式表来修改日期选择器的样式，这将影响整个应用中的所有日期选择器。这是最简单的方法，但可能会影响到其他组件。
+
+2. **Scoped CSS 或 CSS Modules：** 如果你使用了 Vue 的 `scoped` 样式或 CSS Modules，你可以在父组件中创建一个带有特定命名空间的样式，然后将其应用于日期选择器的容器元素。这将确保你的样式仅适用于当前组件的日期选择器。
+
+3. **通过选择器定位：** 如果日期选择器具有唯一的 class 或 id，你可以使用 CSS 选择器来选择它。你可以在父组件的样式表中添加一个特定选择器，以定位日期选择器的容器元素，并应用自定义样式。
+
+4. **内联样式：** 如果你能够在父组件中获取日期选择器的引用，你可以使用内联样式属性直接修改其样式。这需要在父组件中访问日期选择器的 DOM 元素，通常需要使用 `this.$refs` 或 `document.querySelector`。
+
+选择最合适的方法取决于你的具体需求和项目架构。如果只需要修改特定日期选择器的样式，尽量避免全局样式，而是使用较为精确的方法，如 scoped CSS 或 CSS Modules 或选择器定位。
+            
+### 大数据屏日期样式改造
+
+.board-datePicker {
+  .z-picker-panel__content {
+    color: #fff;
+    background: #0a2f68;
+  }
+  .z-month-table td .cell,
+  .z-picker-panel__icon-btn {
+    color: #fff;
+  }
+  .z-month-table td.disabled .cell {
+    color: #c0c4cc;
+  }
+  .z-month-table td.in-range div,
+  .z-month-table td.in-range div:hover {
+    background-color: #1a3f79;
+  }
+  .z-month-table td.end-date .cell,
+  .z-month-table td.start-date .cell {
+    background-color: #1d4a91;
+  }
+}
+
+
+### 选择的月份区间 怎么把数据改成 起始月份 1日 00:00:00  结束月份 月底最后一天 23:59:59，new Date（） 和dayjs插件分别实现
+
+你可以使用 JavaScript 的 `Date` 对象和 Day.js 插件来将选择的月份区间更改为起始月份的第一天（00:00:00）和结束月份的最后一天（23:59:59）。以下是两种方法的示例：
+
+### 使用 JavaScript 的 `Date` 对象：
+
+```javascript
+// 获取选择的月份（示例中选择的是 2023 年 5 月）
+const selectedMonth = new Date(2023, 4); // 月份从 0 开始，所以 4 代表 5 月
+
+// 计算起始月份第一天
+const startDate = new Date(selectedMonth);
+startDate.setDate(1);
+startDate.setHours(0, 0, 0, 0);
+
+// 计算结束月份最后一天
+const endDate = new Date(selectedMonth);
+endDate.setMonth(selectedMonth.getMonth() + 1, 0); // 月底最后一天
+endDate.setHours(23, 59, 59, 999);
+
+console.log('起始日期:', startDate);
+console.log('结束日期:', endDate);
+```
+
+### 使用 Day.js 插件：
+
+```javascript
+const dayjs = require('dayjs');
+const isLastDayOfMonth = require('dayjs/plugin/isLastDayOfMonth');
+dayjs.extend(isLastDayOfMonth);
+
+// 获取选择的月份（示例中选择的是 2023 年 5 月）
+const selectedMonth = dayjs('2023-05');
+
+// 计算起始月份第一天
+const startDate = selectedMonth.startOf('month');
+
+// 计算结束月份最后一天
+const endDate = selectedMonth.endOf('month');
+
+console.log('起始日期:', startDate.format('YYYY-MM-DD HH:mm:ss'));
+console.log('结束日期:', endDate.format('YYYY-MM-DD HH:mm:ss'));
+```
+
+这两种方法都能将选择的月份区间更改为起始月份的第一天（00:00:00）和结束月份的最后一天（23:59:59）。你可以根据实际需求选择使用 JavaScript 的 `Date` 对象或 Day.js 插件。
