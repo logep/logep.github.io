@@ -125,13 +125,70 @@ new Swiper('.swiper-container', {
 
 
 
+在滚动过程中，某个元素里有个日期弹框，如果元素滚动，这日期弹框定位就不对了，希望弹框关闭，或者根据元素重新定位
 
 
+swiper3  如果鼠标在滚动元素上，就停止，鼠标移开这些区域再接着滚动，是用哪个属性控制
+在 Swiper 3 中，你可以使用 `autoplay` 选项的 `disableOnInteraction` 属性来实现当鼠标在滚动元素上时停止自动轮播，当鼠标移开后继续滚动。设置 `disableOnInteraction` 为 `false` 会禁用此行为，而设置为 `true` 会启用它。
+
+```javascript
+new Swiper('.swiper-container', {
+  // 其他选项配置
+  autoplay: {
+    delay: 3000, // 自动切换的间隔时间
+    disableOnInteraction: true, // 当用户交互（鼠标悬停）时禁用自动轮播
+  }
+})
+```
+
+默认情况下，`disableOnInteraction` 属性的值是 `true`，这意味着当用户与轮播元素交互时，例如鼠标悬停在滚动元素上，自动轮播会暂停，当用户不再与元素交互时，自动轮播会继续。
+
+如果你希望禁用此行为，即鼠标悬停在滚动元素上时也不会停止自动轮播，可以将 `disableOnInteraction` 设置为 `false`。
+
+# 控制 element datePicker 手动控制隐藏和显示
+
+   onSlideChangeEnd: swiper => {
+        this.$refs.datePickerMain.pickerVisible = false
+      },
 
 
+##实现鼠标放上去 和移走 需要自己实现mouseleave mouseenter
 
+在 Swiper 3 中，要实现当鼠标在滚动元素上时停止轮播，鼠标移开后继续轮播，你可以使用 `mouseenter` 和 `mouseleave` 事件来控制轮播的停止和启动。以下是一个示例：
 
+```javascript
+var mySwiper = new Swiper('.swiper-container', {
+  // 其他选项配置
+  autoplay: {
+    delay: 3000, // 自动切换的间隔时间
+  },
+});
 
+// 监听鼠标进入滚动元素
+document.querySelector('.swiper-container').addEventListener('mouseenter', function() {
+  mySwiper.stopAutoplay();
+});
 
+// 监听鼠标离开滚动元素
+document.querySelector('.swiper-container').addEventListener('mouseleave', function() {
+  mySwiper.startAutoplay();
+});
+```
 
+在上述示例中，我们首先创建了一个 Swiper 实例 `mySwiper`，然后通过监听 `mouseenter` 事件和 `mouseleave` 事件，分别调用了 `stopAutoplay()` 和 `startAutoplay()` 方法来手动停止和启动轮播。
 
+这样，当鼠标进入滚动元素时，轮播会停止，鼠标离开后继续轮播。这是一种在 Swiper 3 中实现你所需行为的方法。
+
+是的，你在Vue组件中使用了`addEventListener`来添加事件监听器，为了防止内存泄漏，你应该在Vue组件销毁前将这些事件监听器移除。在Vue组件的`beforeDestroy`生命周期钩子中执行这些操作是一个好的做法。
+
+在你的Vue组件中，你可以这样移除事件监听器：
+
+```vue
+beforeDestroy() {
+  const container = document.querySelector('.swiper-container');
+  container.removeEventListener('mouseenter', this.handleMouseEnter);
+  container.removeEventListener('mouseleave', this.handleMouseLeave);
+},
+```
+
+请注意，你需要将事件监听器的回调函数（在这里是`this.handleMouseEnter`和`this.handleMouseLeave`）与相应的事件类型（`mouseenter`和`mouseleave`）匹配起来。这将确保在组件销毁前正确移除事件监听器，以防止内存泄漏。
