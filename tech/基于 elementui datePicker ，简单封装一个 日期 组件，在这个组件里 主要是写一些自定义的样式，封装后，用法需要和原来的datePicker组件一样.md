@@ -402,3 +402,96 @@ export default {
 ```
 
 根据你的具体需求，选择其中一种或多种方法来解决动态生成的元素样式问题。全局样式适用于整个应用，而传递样式给子组件或使用深度选择器更具灵活性，可以根据需要进行选择。
+
+
+
+
+### 重置日期 的几种方式
+要实现Element UI的DatePicker日期区间选择的起始日期在日期弹窗关闭后再打开时重置，你可以使用`ref`来获取DatePicker组件的实例，并通过调用实例方法来手动清除已选择的日期。具体步骤如下：
+
+1. 在你的Vue组件中，首先给DatePicker组件添加`ref`属性，以便获取其实例。
+
+```vue
+<template>
+  <div>
+    <el-date-picker
+      v-model="dateRange"
+      type="daterange"
+      :start-placeholder="startPlaceholder"
+      :end-placeholder="endPlaceholder"
+      ref="datePicker" <!-- 添加ref属性 -->
+    />
+  </div>
+</template>
+```
+
+2. 在Vue组件的方法中，使用`this.$refs`来获取DatePicker组件的实例，并在需要时调用`clear()`方法来重置日期区间的起始日期。
+
+```vue
+<script>
+export default {
+  data() {
+    return {
+      dateRange: [], // 初始化日期区间
+      startPlaceholder: '开始日期',
+      endPlaceholder: '结束日期',
+    };
+  },
+  methods: {
+    resetStartDate() {
+      // 通过ref获取DatePicker组件实例，然后调用clear()方法
+      this.$refs.datePicker.clear();
+    },
+  },
+};
+</script>
+```
+
+3. 现在，你可以在需要的地方调用`resetStartDate`方法来重置日期区间的起始日期。
+
+这样，在每次打开日期选择弹窗之前，你可以调用`resetStartDate`方法，以确保日期区间的起始日期被重置。这样，用户在日期弹窗关闭后再次打开时，可以重新选择起始日期。
+
+
+Element UI 的 DatePicker 组件并没有提供直接的回调函数来在每次打开日期选择弹窗之前触发。但你可以使用以下方法来达到在每次打开日期选择弹窗之前重置日期区间的目的：
+
+1. 使用`watch`属性监听`visible`属性：在你的组件中，你可以使用`watch`属性来监听 DatePicker 组件的 `visible` 属性。`visible` 表示日期选择弹窗是否可见。当它变为 `true` 时，你可以触发重置操作。
+
+```vue
+<template>
+  <div>
+    <el-date-picker
+      v-model="dateRange"
+      type="daterange"
+      :start-placeholder="startPlaceholder"
+      :end-placeholder="endPlaceholder"
+      ref="datePicker"
+    />
+  </div>
+</template>
+```
+
+```javascript
+<script>
+export default {
+  data() {
+    return {
+      dateRange: [], // 初始化日期区间
+      startPlaceholder: '开始日期',
+      endPlaceholder: '结束日期',
+    };
+  },
+  watch: {
+    'datePicker.visible'(newVal) {
+      if (newVal) {
+        // 日期选择弹窗打开时，重置日期区间的起始日期
+        this.$refs.datePicker.clear();
+      }
+    },
+  },
+};
+</script>
+```
+
+在上面的代码中，我们通过监听 `datePicker.visible` 来检测日期选择弹窗的打开状态，并在弹窗打开时触发重置操作。
+
+这样，在每次打开日期选择弹窗之前，都会检测弹窗的状态，并在需要时重置日期区间的起始日期。
