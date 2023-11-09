@@ -222,7 +222,23 @@ dayjs()
 
 
 默认只能选择 12个月区间
-
+<el-date-picker
+		v-model="dateList" 
+		@blur="resetMinDate"
+>
+这个方法必须写当用户选择了起始日期，当没有选择结束日期，直接关闭弹窗，然后再进来重新选择日期，那么置灰的日期展示就有问题（）
+>
+>选择的起始日期 在日期弹窗关闭的时候再打开可以重置吗，才有 blur事件的处理
+>  resetMinDate() {
+          if (this.dateList && this.dateList.length && this.minDate && !this.maxDate) {
+		       this.minDate = new Date(this.dateList[0]);
+		    } else {
+		         this.minDate = null; (如果不要上述判断，直接置空也有问题)
+		    }
+      
+       this.minDate = null;
+        },
+	</el-date-picker>
 
      minDate: null,
             maxDate: null,
