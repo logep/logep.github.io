@@ -1,6 +1,8 @@
 > 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [baijiahao.baidu.com](https://baijiahao.baidu.com/s?id=1750888821840618173&wfr=spider&for=pc)
 
 
+https://nodejs.org/en/about/previous-releases  npm 和node版本对应地址 最新地址
+
 
 https://www.cnblogs.com/gaozejie/p/10689742.html
 2、提示 npm 不能识别
