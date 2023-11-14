@@ -2,7 +2,7 @@
 
 
 https://nodejs.org/en/about/previous-releases  npm 和node版本对应地址 最新地址
-
+https://registry.npmmirror.com/binary.html?path=npm/v8.19.4/  npm 下载地址
 
 https://www.cnblogs.com/gaozejie/p/10689742.html
 2、提示 npm 不能识别
