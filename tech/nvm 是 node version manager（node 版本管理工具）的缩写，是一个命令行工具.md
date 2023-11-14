@@ -1,5 +1,22 @@
 > 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [baijiahao.baidu.com](https://baijiahao.baidu.com/s?id=1750888821840618173&wfr=spider&for=pc)
 
+
+
+https://www.cnblogs.com/gaozejie/p/10689742.html
+2、提示 npm 不能识别
+经实验：14.X 版本会自动下载 npm，16.X 和 17.X 版本会在 temp 路径列出 node 对应的 npm 版本，需要自己下载。
+
+2.1、node 版本和 npm 版本对应查询
+点击查看
+
+2.2、下载对应版本的 npm
+点击此处并选择对应版本下载
+
+下载解压后重命名为 npm，粘贴到 nvm 安装的 node 目录下的 \ node_modules 文件夹，目录如下
+把 bin 下的 npm、npmx 相关文件拷贝到 node 路径下
+
+
+
 ![](https://pics3.baidu.com/feed/3ac79f3df8dcd1003e97824be803111bb8122fe0.png@f_auto?token=453cf248f83096f1f6b88df54c3c6112)
 
 介绍 nvm 是 node version manager（node 版本管理工具）的缩写，是一个命令行工具，用于管理和切换到不同版本的 node.js。
