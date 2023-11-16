@@ -42,3 +42,7 @@
    这会重新构建 `node-sass`，可能会解决一些编译问题。
 
 请根据具体情况逐一尝试这些解决方法，通常能够解决 `node-sass` 相关的安装问题。
+
+
+### Error: Node Sass does not yet support your current environment: Windows 64-bit with Unsupported runtime (93)
+是node版本太高了，不匹配
