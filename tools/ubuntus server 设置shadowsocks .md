@@ -1,3 +1,13 @@
+version: '2'
+services:
+    shadowsocks-libev:
+        ports:
+            - 8388:8388
+        container_name: ss-server
+        volumes:
+            - /path/to/config.json:/etc/shadowsocks-libev/config.json
+        image: shadowsocks/shadowsocks-libev
+
 是的，你理解得正确。当你在局域网中连接到安装了 Shadowsocks 的服务器时，通常需要在设备上设置代理才能实现翻墙效果。设置代理是指将设备的网络流量通过 Shadowsocks 服务器进行转发，从而绕过国内的网络限制，访问被封锁的内容。
 
 简单地设置 DNS 或者网关是不足以实现翻墙的，因为这些设置只是修改了 DNS 解析或者路由表，并不能改变网络流量的实际路径。而代理会将设备的网络请求发送到 Shadowsocks 服务器，由服务器转发请求并返回结果，实现翻墙。
