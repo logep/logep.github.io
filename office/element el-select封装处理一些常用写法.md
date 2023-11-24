@@ -30,6 +30,14 @@ filterMethod方法 那么就会自动过滤 增加一个默认的filterMethod方
         }
 force 加一个强制性回写value 显示 通过这种匹配 不会把下拉框显示的值显示选中（有bug）所以通过下面这种方式 显示绝对层显示相应的值 也不覆盖相应的value
 
+force 就不需要了，直接通过这种方式即可 以后 有回写编辑的直接这样写即可 name默认展示的是name id    :value="managerName"
+                @input="
+                  e => {
+                    this.managerId = e
+                  }
+                "
+
+
 如果是多选 自己一定要处理好数组的问题 multiple
 
 如果按照这样赋值，每次update的时候，如果有watch这个forceLabel 就会每次执行 最好写个变量里
