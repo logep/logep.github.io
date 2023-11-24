@@ -46,7 +46,37 @@ force 加一个强制性回写value 显示 通过这种匹配 不会把下拉框
 如果是单个  可以使用forceLabel
 
 
-使用方式 
+
+下拉框选中的值直接滚动指定位置
+  <transition
+      name="el-zoom-in-top"
+      @before-enter="handleMenuEnter"
+      @after-leave="doDestroy">
+    handleMenuEnter() {
+        this.$nextTick(() => this.scrollToOption(this.selected));
+      },
+
+
+针对键盘事件结束处理
+
+      @compositionstart="handleComposition"
+      @compositionupdate="handleComposition"
+      @compositionend="handleComposition"
+
+  handleComposition(event) {
+        const text = event.target.value;
+        if (event.type === 'compositionend') {
+          this.isOnComposition = false;
+          this.$nextTick(_ => this.handleQueryChange(text));
+        } else {
+          const lastCharacter = text[text.length - 1] || '';
+          this.isOnComposition = !isKorean(lastCharacter);
+        }
+      },
+绑定事件  @scroll.native="handleScroll" 不能直接应用在el-select 滚动不是在这个select dom上 需要用指令实现这个      v-loadmore='loadMore'
+
+
+使用方式
 
      <select-ui
         v-model="testValueArr1"
@@ -59,7 +89,15 @@ force 加一个强制性回写value 显示 通过这种匹配 不会把下拉框
         api-url="companyManager/query/searchSealByName"
         placeholder="请选择输入"
       />
-      
+
+
+
+todo 加上setTimeout  timerId 已处理
+todo 加上loading状态处理 交互更好 已处理
+todo 滚动下拉 分页
+todo 增加api请求通过传入
+
+
    -->
   <!--  :remote="remote"-->
   <!--  :remote-method="query"-->
@@ -68,17 +106,18 @@ force 加一个强制性回写value 显示 通过这种匹配 不会把下拉框
   <!--  @change="handleValue"-->
   <!--  @clear="handleClear"-->
 
+  <!--   -->
   <!--  -->
-
-  <z-select
+  <el-select
     ref="selectPack"
     v-model="selectedValue"
     v-bind="$attrs"
-    v-on="$listeners"
-    :loading="loading"
     @focus="handleFocus"
-    remote
     filterable
+    :loading="loading"
+    v-on="$listeners"
+    remote
+    v-loadMore="fetchData"
     :remote-method="fetchDataFromApi"
     :placeholder="placeholder"
     @change="handleChange"
@@ -86,13 +125,13 @@ force 加一个强制性回写value 显示 通过这种匹配 不会把下拉框
     <!--    :key="handleValue(item) + '' + index"-->
     <!--    :label="item && item[labelName]"-->
     <!--    :value="handleValue(item)"-->
-    <z-option v-for="item in filteredOptionList" :key="item.value" :label="item.label" :value="handleValue(item)" />
-  </z-select>
+    <el-option v-for="item in filteredOptionList" :key="item.value" :label="item.label" :value="handleValue(item)" />
+    <div v-if="noMoreData" class="no-more-data">没有更多数据了</div>
+  </el-select>
 </template>
 
 <script>
-import request from '@/utils/request'
-import { HostName } from '@/config/env.js'
+
 
 export default {
   props: {
@@ -106,7 +145,15 @@ export default {
       type: Boolean,
       default: false
     },
+    isApiPage: {
+      type: Boolean,
+      default: false
+    },
     focusAutoLoad: {
+      type: Boolean,
+      default: false
+    },
+    apiNeedParam: {
       type: Boolean,
       default: false
     },
@@ -174,12 +221,72 @@ export default {
       default: '请选择'
     }
   },
+  directives: {
+    loadMore: {
+      inserted: function(el, binding) {
+        const querySelector = el.querySelector('.el-select-dropdown .el-select-dropdown__wrap')
+        let scrollPosition = 0
+
+        // 创建单独的 throttleHandler 函数
+        const throttleHandler = throttle(function() {
+          let upOrDown = this.scrollTop - scrollPosition > 0
+          scrollPosition = this.scrollTop
+          const rect = this.getBoundingClientRect()
+          const CONDITION = (rect.bottom - this.scrollTop) / this.clientHeight <= 3 //兼容性更好
+          // const CONDITION = (this.scrollHeight - this.scrollTop) / this.clientHeight <= 3
+          if (CONDITION && upOrDown) {
+            console.log('触底')
+            binding.value.call(el) // 使用 binding.value.call(el) 来确保上下文正确
+          }
+        }, 200)
+
+        querySelector.addEventListener('scroll', throttleHandler)
+
+        // 在unbind钩子中移除事件监听器，防止内存泄漏
+        binding.def.unbind = function() {
+          console.log('移除监听器')
+          querySelector.removeEventListener('scroll', throttleHandler)
+        }
+
+        // 改进的 throttle 函数
+        function throttle(func, wait) {
+          let previous = 0
+          let timeout
+          return function() {
+            let now = +new Date()
+            let remain = wait - (now - previous)
+            let context = this
+            let args = arguments
+
+            if (remain <= 0) {
+              clearTimeout(timeout)
+              previous = now
+              func.apply(context, args)
+            } else if (!timeout) {
+              timeout = setTimeout(function() {
+                timeout = null
+                previous = +new Date()
+                func.apply(context, args)
+              }, remain)
+            }
+          }
+        }
+      }
+    }
+  },
+
   data() {
     return {
       uuidSingle: 0,
       loading: false,
+      keyword: undefined,
+      timerId: undefined,
       forceWrite: this.forceValueWrite,
+      currentPage: 1,
+      pageSize: 10,
       filteredOptionList: this.options,
+      canLoadMore: false, // 新增状态，表示是否可以加载更多数据
+      noMoreData: false, // 新增状态，表示是否没有更多数据
       selectedValue: ''
     }
   },
@@ -187,8 +294,6 @@ export default {
     // 监听外部传入的值的变化，当编辑详情页时更新下拉框的值
     value: {
       handler(newValue) {
-        console.log(newValue)
-        console.log('13134444444444444444444444444444444412312312')
         // 如果要兼容 这个强制回写 必须 给这个forceLabel赋值
         this.selectedValue = JSON.parse(JSON.stringify(newValue))
         // this.selectedValue = this.forceValueWrite && this.forceLabel ? this.forceLabel : newValue
@@ -197,8 +302,6 @@ export default {
     },
     forceLabel: {
       handler(newValue) {
-        console.log(newValue)
-        console.log('131312355555555555555555555555512312')
         // 如果要兼容 这个强制回写 必须 给这个forceLabel赋值
         //todo 传入的如果不是对象 倒没问题，如果是对象 那么直接这样赋值 后续修改值 会因为是引用对象 会有问题
         if (this.forceWrite && newValue) {
@@ -209,6 +312,66 @@ export default {
     }
   },
   methods: {
+    fetchData() {
+      //正在加载.. 或者可以加载更多数据时
+      if (this.isApi && !this.noMoreData && this.isApiPage && (this.canLoadMore || !this.loading)) {
+        // 怎么在clear 或者其他非正常手段把 keyword删除掉之后 怎么保证keyword
+        if (this.apiNeedParam && !this.keyword) return
+        //
+        let _params = {
+          currentPage: this.currentPage++,
+          pageSize: this.pageSize
+        }
+
+        this.canLoadMore = false
+        // this.loading = true loading控制显示底部进度
+        _params[this.searchKeyWord + ''] = this.keyword
+        request({
+          url: `${HostName}${this.apiUrl}`,
+          method: 'POST',
+          data: _params
+        })
+          .then(({ result }) => {
+            this.loading = false
+            this.canLoadMore = true
+            // 模拟判断是否还有更多数据
+
+            // if (result) {
+            let rtData = this.optionsFormatter && this.optionsFormatter(result.data)
+            // }
+            const hasMoreData = rtData.length === this.pageSize
+            if (hasMoreData) {
+              this.options = this.options.concat(rtData)
+              // this.currentPage++
+            } else {
+              this.noMoreData = true // 没有更多数据
+            }
+            this.filteredOptionList = this.options
+            // this.options = data // 将获取到的数据赋值给选项
+          })
+          .catch(error => {
+            this.currentPage > 1 && this.currentPage--
+            console.error('Error fetching data from API', error)
+          })
+          .finally(() => {
+            // this.loading = true loading控制显示底部进度
+            this.canLoadMore = true
+            console.timeEnd()
+            clearTimeout(this.timerId)
+          })
+      }
+    },
+    // 处理滚动事件
+    handleScroll(event) {
+      const target = event.target
+      if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+        // 滚动到底部，触发加载更多数据
+        if (!this.loading) {
+          this.loading = true
+          this.fetchData()
+        }
+      }
+    },
     handleValue(item) {
       if (!item) return ''
       if (this.innerObj) {
@@ -219,20 +382,19 @@ export default {
     },
     // 当下拉框的值发生变化时触发
     handleChange(value) {
-      console.log(value)
-      console.log('handleChange-============================================')
       // todo 让强制写值 失效
       this.forceWrite = false
+      // this.$emit('input', 'guding') // 将变化的值传递给父组件
       this.$emit('input', value) // 将变化的值传递给父组件
     },
     handleFocus() {
+      this.loading = false // 不知道是什么bug
       // 增加 focus 自动查询
       if (this.focusAutoLoad) {
         this.fetchDataFromApi()
       }
     },
     filterDataFromApi(query) {
-      console.log('filter query2===============')
       //不暴露过滤方法给外面 如果有需要增加 但应该不满足自动创建label的需求这个地方需要改动 todo
       // this.filteredOptionList = this.localFilterMethod(query)
       const labelName = this.labelName
@@ -245,44 +407,54 @@ export default {
     },
     // 如果是从接口获取数据，则在组件创建时请求数据
     fetchDataFromApi(param) {
-      console.log(param)
-      console.log('param')
       if (this.isApi) {
         // 使用适当的 HTTP 请求库（例如 axios）从接口获取数据
         // 这里使用了简化的 fetch API 作为示例
-        if (!this.focusAutoLoad && !param) return
+        if (this.apiNeedParam && !param) return
         this.uuidSingle += 1
         const fetchUid = this.uuidSingle
         // 这个地方可以是 内部请求消化，或者外部传进来函数处理
         // fetch(this.apiUrl)
         // this.innerFun()
         // this.innerFun()
+        this.loading = true
         let _params = {
-          pageSize: this.pageSize,
-          pageNum: this.pageNum
+          // pageSize: this.pageSize,
+          // pageNum: this.pageNum
         }
-
+        this.keyword = param
         _params[this.searchKeyWord + ''] = param
-        request({
-          url: `${HostName}${this.apiUrl}`,
-          method: 'POST',
-          data: _params
-        })
-          .then(({ result }) => {
-            console.log('then', result)
-            if (fetchUid !== this.uuidSingle) {
+        this.timerId && clearTimeout(this.timerId)
+        console.time()
+        console.time()
+        this.timerId = setTimeout(() => {
+          request({
+            url: `${HostName}${this.apiUrl}`,
+            method: 'POST',
+            data: _params
+          })
+            .then(({ result }) => {
+              if (fetchUid !== this.uuidSingle) {
+                return
+              }
+              if (result) {
+                this.options = this.optionsFormatter && this.optionsFormatter(result.data)
+                this.filteredOptionList = this.options
+              }
+              // this.options = data // 将获取到的数据赋值给选项
+            })
+            .catch(error => {
+              console.error('Error fetching data from API', error)
+            })
+            .finally(() => {
+              // 只要重新请求数据 就置空页码
+              this.currentPage = 1
               this.loading = false
-              return
-            }
-            if (result) {
-              this.options = this.optionsFormatter && this.optionsFormatter(result.data)
-              this.filteredOptionList = this.options
-            }
-            // this.options = data // 将获取到的数据赋值给选项
-          })
-          .catch(error => {
-            console.error('Error fetching data from API', error)
-          })
+              this.noMoreData = false
+              console.timeEnd()
+              clearTimeout(this.timerId)
+            })
+        }, 400)
       } else {
         this.filterDataFromApi(param)
       }
@@ -294,3 +466,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.no-more-data {
+  text-align: center;
+  margin-top: 10px;
+  color: #999;
+}
+</style>
