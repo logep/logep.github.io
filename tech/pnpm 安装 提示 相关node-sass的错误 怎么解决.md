@@ -1,3 +1,5 @@
+https://pnpm.io/zh/package_json#pnpmpackageextensions
+
 如果在使用 pnpm 安装过程中遇到了与 `node-sass` 相关的错误，这可能与 `node-sass` 的二进制文件在安装时无法正确编译有关。以下是一些可能的解决方法：
 
 1. **检查 Node.js 版本：** 确保你的 Node.js 版本与你项目中的要求匹配。有时 `node-sass` 的二进制文件可能与 Node.js 版本不兼容。
