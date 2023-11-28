@@ -1,5 +1,18 @@
 使用`<use xlink:href="iconName"></use>`与使用`<img>`引入有以下区别：
 
+先在这页面上引入
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none">
+      <symbol id="icon-arrow-steps">
+        <svg
+          height="70"
+        ></svg>
+      </symbol>
+</svg>
+然后直接使用
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="80">
+            <use :xlink:href="getIcon(item)" />
+          </svg>
+
 1. 可重用性：`<use>`元素允许您在同一SVG文档中或跨不同SVG文档中引用和重用SVG元素或符号。您可以定义一次SVG元素或符号，并在整个文档中多次使用，而无需重复定义它。这提高了SVG的可维护性和可扩展性。
 
 2. 嵌套：`<use>`元素允许您嵌套SVG元素或符号，从而创建更复杂的图形。您可以在`<use>`元素内部添加其他SVG元素，从而构建更高级的图形，而`<img>`标签无法实现此嵌套。
