@@ -130,3 +130,80 @@
 这个示例中，当你点击“Print Page”按钮时，它会显示一个包含iframe内容的Shadow DOM，并将其打印。请注意，这只是一个简单的示例，具体情况可能需要更多的调整和优化。确保在实际应用中测试并适应你的需求。
 
 
+
+确保在打印完毕后，将页面还原到原始状态是很重要的。你可以在打印窗口关闭后执行恢复操作。下面是一个修改后的示例：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print Page with Current and Iframe Content</title>
+  <style>
+    /* Your main page styles here */
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <p>Main page content here.</p>
+    <!-- Your main page content -->
+
+    <!-- Button to trigger printing -->
+    <button onclick="printPage()">Print Page</button>
+  </div>
+
+  <!-- Hidden iframe with sandbox -->
+  <iframe id="print-iframe" style="display: none;" sandbox="allow-same-origin allow-scripts">
+    <!-- Your iframe content here -->
+    <p>Content inside the iframe</p>
+  </iframe>
+
+  <script>
+    function printPage() {
+      // Get the iframe element
+      const iframe = document.getElementById('print-iframe');
+
+      // Clone the iframe content
+      const iframeContentClone = iframe.contentDocument.body.cloneNode(true);
+
+      // Clone the main page content
+      const mainPageClone = document.body.cloneNode(true);
+
+      // Remove iframe content from the main page clone
+      const iframeInMainPageClone = mainPageClone.querySelector('#print-iframe');
+      if (iframeInMainPageClone) {
+        iframeInMainPageClone.parentNode.removeChild(iframeInMainPageClone);
+      }
+
+      // Create a new window for printing
+      const printWindow = window.open('', '_blank');
+
+      // Append the cloned content to the new window
+      printWindow.document.body.appendChild(mainPageClone);
+      printWindow.document.body.appendChild(iframeContentClone);
+
+      // Trigger the print dialog
+      printWindow.print();
+
+      // Close the print window and restore the main page
+      printWindow.onafterprint = function() {
+        printWindow.close();
+        restoreMainPage();
+      };
+    }
+
+    // Function to restore the main page to its original state
+    function restoreMainPage() {
+      // Add your logic here to restore the main page
+      alert('Restore main page logic goes here');
+    }
+  </script>
+</body>
+</html>
+```
+
+在这个示例中，我添加了一个 `restoreMainPage` 函数，它包含了在打印窗口关闭后还原主页面的逻辑。你需要根据你的实际需求来实现这个函数，以确保页面在打印完成后恢复到原始状态。在 `printWindow.onafterprint` 事件中，关闭打印窗口并调用 `restoreMainPage` 函数。
