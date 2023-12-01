@@ -1,6 +1,45 @@
 [object HTMLDivElement] 打印
 cloneNode(true) 怎么把这个方法返回的对象变成 dom
 
+//打印 el table 高度问题解决   把元素控制台打印出来 然后可以看到那些元素 是有height:100% 全部去掉即可
+如
+    const class0 = doc.getElementsByClassName('el-form')
+    const class5 = doc.getElementsByClassName('el-table')
+
+// 还有el-form表单 粘在一起了是什么问题
+
+//表头打印表格
+https://blog.csdn.net/CHHHKXJH24/article/details/125920805
+import ElTable from './components/el-table.js'
+Vue.component('el-table',ElTable)
+<script>
+    import { Table } from 'element-ui';
+    export default {
+        extends: Table,
+        mounted() {
+            this.$nextTick(function () {
+                let thead = this.$el.querySelector('.el-table__header-wrapper thead');
+                let theadNew = thead.cloneNode(true);
+                this.$el.querySelector('.el-table__body-wrapper table').appendChild(theadNew);
+            })
+        },
+    }
+</script>
+<style scoped>
+    .el-table >>> .el-table__body-wrapper thead {
+        display: none;
+    }
+    @media print {
+        .el-table >>> .el-table__header-wrapper {
+            display: none;
+        }
+        .el-table >>> .el-table__body-wrapper thead {
+            display: table-header-group;
+        }
+    }
+</style>
+
+
 
 // 打印类属性、方法定义
 // xyl66
@@ -80,8 +119,50 @@ Print.prototype = {
       }
     }
 
-    const outerHTML = this.dom.outerHTML
-    return outerHTML
+// 去除el table的相关
+ const class1 = doc.getElementsByClassName('el-table__body')
+    const class2 = doc.getElementsByClassName('el-table__header')
+    const class3 = doc.getElementsByClassName('el-table__footer')
+    const class4 = doc.getElementsByClassName('el-table__empty-block')
+
+    for (let i = 0; i < class1.length; i++) {
+      class1[i].setAttribute('style', 'width:100%')
+      const col = class1[i].querySelector('colgroup')
+      if (col && col.parentNode) {
+        col.parentNode.removeChild(col)
+      }
+      const td = class1[i].querySelectorAll('td')
+      for (let i = 0; i < td.length; i++) {
+        td[i].querySelector('div') && td[i].querySelector('div').removeAttribute('style')
+      }
+    }
+    for (let i = 0; i < class2.length; i++) {
+      class2[i].setAttribute('style', 'width:100%')
+      const col = class2[i].querySelector('colgroup')
+
+      if (col && col.parentNode) {
+        col.parentNode.removeChild(col)
+      }
+      const th = class2[i].querySelectorAll('th')
+      for (let i = 0; i < th.length; i++) {
+        th[i].querySelector('div') && th[i].querySelector('div').removeAttribute('style')
+      }
+    }
+    for (let i = 0; i < class3.length; i++) {
+      class3[i].setAttribute('style', 'width:100%')
+      const col = class3[i].querySelector('colgroup')
+
+      if (col && col.parentNode) {
+        col.parentNode.removeChild(col)
+      }
+      const th = class3[i].querySelectorAll('th')
+      for (let i = 0; i < th.length; i++) {
+        th[i].querySelector('div') && th[i].querySelector('div').removeAttribute('style')
+      }
+    }
+    for (let i = 0; i < class4.length; i++) {
+      class4[i].setAttribute('style', 'width:100%')
+    }
   },
 
   writeIframe(content) {
