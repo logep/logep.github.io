@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       comp,
-      restore: 1,
+      restore: 1,//这个也可以不要
       originFullPath: ''
     }
   },
@@ -47,6 +47,11 @@ export default {
         }
         return
       }
-
+## 第二种方案  在 router-view出口 加key 那么公用的因为key 缓存不一样
+      <router-view
+            class="test22332423"
+            :key="$route.fullPath"
+          ></router-view>
+          <router-view v-else></router-view>
 
 
