@@ -2,6 +2,12 @@
 2.路由器网络重启后，需要重新启动ubuntu 或者连接显示器重新执行 重启网络 sudo systemctl restart networking  or sudo service networking restart
 sudo ifconfig enp1s0 up
 ip a | head -n 20
+
+ip link show
+你可以使用以下命令来获取与有线网络接口相关的信息
+sudo ip link set dev eth0 down
+sudo ip link set dev eth0 up
+
 可以使用`ping`命令来检测网络连接是否正常。以下是一个简单的脚本，它会定期检测与路由器的连接，并在检测到断网时重启网络服务：
 
 ```bash
@@ -27,6 +33,58 @@ while true; do
         sleep 10
     fi
 done
+
+
+
+
+如果在重新连接成功后，你想要再次检测网络连接状态并重新执行命令，可以将整个循环放到一个函数中，并在成功重连后调用该函数。以下是一个修改后的脚本，以包含一个函数，并在成功重连后调用该函数：
+
+```bash
+#!/bin/bash
+
+# 路由器的IP地址
+router_ip="192.168.1.1"
+
+# 定义ping的超时时间，单位为秒
+timeout=5
+
+# 定义最大尝试次数
+max_attempts=5
+
+# 定义函数用于检测并重启网络连接
+check_and_restart() {
+    attempts=0
+
+    while [ $attempts -lt $max_attempts ]; do
+        # 执行ping命令，等待timeout秒
+        if ping -c 1 -W $timeout $router_ip >/dev/null 2>&1; then
+            # 网络连接正常，退出循环
+            break
+        else
+            # 网络连接断开，重启网络服务
+            sudo ip link set dev eth0 down
+            sudo ip link set dev eth0 up
+
+            echo "网络连接已断开，已重启网络服务."
+            
+            # 增加尝试次数
+            ((attempts++))
+            
+            # 等待一段时间后再次检测
+            sleep 10
+        fi
+    done
+}
+
+# 循环检测和处理网络连接
+while true; do
+    check_and_restart
+    # 等待一段时间后再次检测
+    sleep 10
+done
+```
+
+在这个脚本中，`check_and_restart`函数用于检测并处理网络连接状态。在主循环中，它将一直调用`check_and_restart`函数，以确保在网络连接断开时进行处理。当成功重新连接后，它会再次等待一段时间，然后再次执行检测。这个过程将一直循环下去。
 ```
 
 请注意，此脚本会在后台无限循环运行，并每隔一段时间执行一次ping命令。如果检测到网络连接断开，则会使用`sudo systemctl restart networking`命令重启网络服务。你可以根据实际情况调整脚本中的IP地址、超时时间以及等待时间。
