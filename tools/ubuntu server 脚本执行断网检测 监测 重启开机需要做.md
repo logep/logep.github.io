@@ -1,5 +1,6 @@
 1.adguard home dns服务重新启动
 2.路由器网络重启后，需要重新启动ubuntu 或者连接显示器重新执行 重启网络 sudo systemctl restart networking  or sudo service networking restart
+3.把检测网络是否需要重新连接的服务修改下 ip地址
 sudo ifconfig enp1s0 up
 ip a | head -n 20
 
