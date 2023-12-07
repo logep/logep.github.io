@@ -17,6 +17,25 @@
    ```
    请注意，上述命令中的 `eth0` 应该替换为你的网络接口的实际名称，可以通过 `ifconfig` 或 `ip a` 命令查看。
 
+
+
+如果你只想显示`ip a`或`ip link show`命令输出的前几行，你可以通过使用`head`命令来实现。例如：
+
+```bash
+ip a | head -n 5
+```
+
+或者：
+
+```bash
+ip link show | head -n 5
+```
+
+这将只显示命令输出的前5行。这对于快速查看网络接口的基本信息是很有用的。
+
+
+
+
 3. **使用 `systemctl` 重新启动网络管理器（如果正在使用）：**
    ```bash
    sudo systemctl restart NetworkManager
