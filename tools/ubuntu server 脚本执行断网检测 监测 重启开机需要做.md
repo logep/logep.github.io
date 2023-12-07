@@ -1,6 +1,7 @@
 1.adguard home dns服务重新启动
 2.路由器网络重启后，需要重新启动ubuntu 或者连接显示器重新执行 重启网络 sudo systemctl restart networking  or sudo service networking restart
-
+sudo ifconfig enp1s0 up
+ip a | head -n 20
 可以使用`ping`命令来检测网络连接是否正常。以下是一个简单的脚本，它会定期检测与路由器的连接，并在检测到断网时重启网络服务：
 
 ```bash
