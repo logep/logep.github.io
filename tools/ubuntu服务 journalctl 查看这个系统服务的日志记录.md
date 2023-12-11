@@ -36,3 +36,20 @@ sudo journalctl -r | less
 ```
 
 然后你可以使用箭头键或其他相应的按键进行上下滚动。按 `q` 键退出 `less`。
+
+
+
+
+如果你想查看特定服务的最新日志并按照时间倒序排列，你可以使用 `-u` 选项来指定服务名称。例如，要查看 `network-monitor` 服务的最新日志：
+
+```bash
+sudo journalctl -u network-monitor -r
+```
+
+这将显示 `network-monitor` 服务的最新日志，按时间倒序排列。同样，你也可以使用 `less` 进行分页：
+
+```bash
+sudo journalctl -u network-monitor -r | less
+```
+
+确保将 `network-monitor` 替换为你实际使用的服务名称。
