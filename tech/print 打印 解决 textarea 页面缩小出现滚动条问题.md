@@ -164,8 +164,25 @@ Print.prototype = {
       class4[i].setAttribute('style', 'width:100%')
     }
   },
+   writeIframe(dom) {
+      const iframe = document.createElement('iframe')
+      let contentB = document.querySelector('body')
+      iframe.style.width = '100%'
+      contentB.appendChild(iframe)
+      const con = dom.cloneNode(true)
+      this.getHtml(con)
+      let doc = iframe.contentDocument
+      doc.write(this.getStyle())
+      // doc.write('<div></div>')
+      doc.close()
+      iframe.onload = () => {
+        iframe.contentDocument.body.appendChild(con)
+        this.toPrint(iframe.contentWindow)
+      }
+    },
 
-  writeIframe(content) {
+// 这个方法写的有问题
+  writeIframe2(content) {
     const iframe = document.createElement('iframe')
     iframe.id = 'myIframe'
     iframe.style.width = '100%'
