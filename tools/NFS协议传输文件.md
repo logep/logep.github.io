@@ -75,7 +75,24 @@
 
    ```plaintext
    /path/to/shared_folder  *(rw,sync,no_subtree_check)
+
+   /srv/exchange 192.168.100.*(rw,sync,insecure,no_root_squash)
    ```
+   今天尝试在ubuntu与mac os x之间通过nfs共享文件。
+
+
+使用mac os x访问nfs的步骤：finder -> "前往" -> "连接服务器..."。在打开的窗口中输入"nfs://server.name/path/to/shared/folder"，点击连接即可。
+
+
+在ubuntu中需要安装，配置并启动nfs-kernel-server。具体步骤看这里：https://help.ubuntu.com/community/SettingUpNFSHowTo
+
+
+这里需要主意的是nfs的设置（/etc/exports）：
+
+
+
+
+"insecure"必须有，否则finder会报找不到服务器的错误。
 
    保存并退出配置文件。
 
