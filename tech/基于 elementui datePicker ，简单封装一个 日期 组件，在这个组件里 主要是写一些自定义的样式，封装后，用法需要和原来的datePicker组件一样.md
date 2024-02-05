@@ -489,9 +489,54 @@ export default {
     },
   },
 };
+
+
+
+
+
 </script>
 ```
 
 在上面的代码中，我们通过监听 `datePicker.visible` 来检测日期选择弹窗的打开状态，并在弹窗打开时触发重置操作。
 
 这样，在每次打开日期选择弹窗之前，都会检测弹窗的状态，并在需要时重置日期区间的起始日期。
+
+
+
+
+
+你的代码已经基本正确，不过可以进行一些优化，使其更简洁。下面是一些改进的建议：
+
+```typescript
+pickerOptions: object = {
+  onPick: ({ minDate }: any) => {
+    // 把选择的第一个日期赋值给一个变量。
+    this.selectStarDate = minDate ? minDate.getTime() : null;
+  },
+  disabledDate: (time: Date) => {
+    const minFixDate = new Date('2023-01-01T00:00:00');
+
+    if (this.selectStarDate) {
+      const oneDay = 24 * 60 * 60 * 1000; // 一天的时间戳
+
+      // 7天之前
+      const minTime = Math.max(this.selectStarDate - 6 * oneDay, minFixDate.getTime());
+      // 7天之后
+      const maxTime = this.selectStarDate + oneDay;
+
+      // 限制不能选择今天及以后
+      return time.getTime() < minTime || time.getTime() > maxTime || time.getTime() > Date.now();
+    }
+
+    // 如果没有选择开始日期，限制不能选择今天及以后
+    return time.getTime() < minFixDate.getTime() || time.getTime() > Date.now();
+  },
+};
+```
+
+在这个优化中，主要进行了以下改进：
+
+1. 使用 `oneDay` 变量表示一天的时间戳，使代码更清晰。
+2. 在 `onPick` 方法中，使用条件运算符进行赋值，避免不必要的 if 语句。
+3. 在 `disabledDate` 方法中，使用 `minDate ? minDate.getTime() : null` 简化赋值逻辑。
+4. 优化计算 `minTime` 的方式，使其更直观。
