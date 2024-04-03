@@ -2,6 +2,13 @@
 
 6.1.11多了很多view视图的选择
 
+
+这段代码也很关键
+用了高级的视图 那么就需要把数据放置在  resouces下
+  this.$refs.calendar.getApi()('resetOptions', { resources })
+  没有用高级的视图 直接用  
+  this.$refs.calendar.getApi()('resetOptions',resources)
+
 import FullCalendar from '@fullcalendar/vue'
 import list from '@fullcalendar/list'
 import resource from '@fullcalendar/resource' // 通过在package.json 单独添加 @fullcalendar/resource 重点是这个一定要这种方式
