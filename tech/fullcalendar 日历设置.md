@@ -2,7 +2,7 @@
 
 6.1.11多了很多view视图的选择
 
-
+https://github.com/okaoka0709/snow-calendar
 这段代码也很关键
 用了高级的视图 那么就需要把数据放置在  resouces下
   this.$refs.calendar.getApi()('resetOptions', { resources })
