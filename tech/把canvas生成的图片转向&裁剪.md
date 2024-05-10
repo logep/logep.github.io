@@ -247,3 +247,278 @@ cropBase64Image(base64String)
 ```
 
 这个函数接受一个 base64 字符串作为输入，并返回一个 Promise，该 Promise 在裁剪操作完成后解析为裁剪后的 base64 字符串。
+
+
+
+
+如果你想在 Canvas 上实现手写笔效果，并且需要一个背景图片作为参考，你可以采取以下策略来避免手写笔效果与背景图片冲突：
+
+1. **在 Canvas 上绘制背景图片后再绘制手写笔效果**：首先绘制背景图片，然后在其上绘制手写笔轨迹。这样手写笔的轨迹会覆盖在背景图片之上，不会造成冲突。
+
+2. **使用两个 Canvas 层**：在底层的 Canvas 上绘制背景图片，而在上层的 Canvas 上实现手写笔效果。这样可以分开处理背景图片和手写笔效果，避免了它们之间的冲突。
+
+下面是一个简单的示例代码，演示如何实现这两种方法：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canvas 背景图片与手写笔效果</title>
+<style>
+    canvas {
+        display: block;
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+
+<!-- 方法一：在 Canvas 上绘制背景图片后再绘制手写笔效果 -->
+<canvas id="canvas1"></canvas>
+
+<!-- 方法二：使用两个 Canvas 层 -->
+<div style="position: relative;">
+    <canvas id="backgroundCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+    <canvas id="penCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+</div>
+
+<script>
+    // 方法一：在 Canvas 上绘制背景图片后再绘制手写笔效果
+    var canvas1 = document.getElementById('canvas1');
+    var ctx1 = canvas1.getContext('2d');
+
+    var img1 = new Image();
+    img1.onload = function() {
+        ctx1.drawImage(img1, 0, 0, canvas1.width, canvas1.height); // 绘制图片，填充整个 Canvas
+        // 在此处添加手写笔效果的绘制代码
+    };
+    img1.src = 'background.jpg'; // 背景图片的路径
+
+    // 方法二：使用两个 Canvas 层
+    var backgroundCanvas = document.getElementById('backgroundCanvas');
+    var penCanvas = document.getElementById('penCanvas');
+    var ctxBackground = backgroundCanvas.getContext('2d');
+    var ctxPen = penCanvas.getContext('2d');
+
+    var img2 = new Image();
+    img2.onload = function() {
+        ctxBackground.drawImage(img2, 0, 0, backgroundCanvas.width, backgroundCanvas.height); // 绘制背景图片
+    };
+    img2.src = 'background.jpg'; // 背景图片的路径
+    // 在此处添加手写笔效果的绘制代码
+</script>
+
+</body>
+</html>
+```
+
+你可以在代码中添加手写笔效果的绘制代码，以适应你的具体需求。
+## 保存canvas的图片，怎么避免背景图被保存进去
+如果你想要保存 Canvas 的图片，但不想保存背景图，可以通过以下方法来实现：
+
+1. **只保存手写笔的轨迹**：在绘制 Canvas 图像时，只绘制手写笔的轨迹，而不包括背景图。
+
+2. **在保存图片前清除背景图**：在保存 Canvas 图像之前，先清除背景图。这意味着在保存之前，你需要将 Canvas 上已经绘制的背景图清除掉，然后再保存。
+
+以下是一个示例代码，演示如何实现这两种方法中的第二种：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>保存 Canvas 图片</title>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<button onclick="saveCanvas()">保存 Canvas 图片</button>
+
+<script>
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    // 绘制背景图片
+    var backgroundImage = new Image();
+    backgroundImage.onload = function() {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    };
+    backgroundImage.src = 'background.jpg'; // 背景图片的路径
+
+    // 绘制手写笔轨迹
+    function drawPen(x, y) {
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+    }
+
+    // 鼠标移动时绘制手写笔轨迹
+    canvas.addEventListener('mousemove', function(event) {
+        if (event.buttons === 1) {
+            drawPen(event.offsetX, event.offsetY);
+        }
+    });
+
+    // 保存 Canvas 图片
+    function saveCanvas() {
+        // 清除背景图片
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 保存 Canvas 图片
+        var imageURL = canvas.toDataURL('image/png');
+        var link = document.createElement('a');
+        link.href = imageURL;
+        link.download = 'canvas_image.png';
+        link.click();
+    }
+</script>
+
+</body>
+</html>
+```
+
+在这个示例中，当你点击按钮保存 Canvas 图片时，首先使用 `ctx.clearRect()` 方法清除了 Canvas 上的背景图，然后再保存 Canvas 图片。这样就能确保只有手写笔的轨迹被保存进图片，而背景图不会被保存。
+
+
+明白了，你需要在 Canvas 上绘制背景图，同时手写笔的轨迹可以单独保存。你可以使用两个 Canvas 层来实现这一点：一个用于绘制背景图，另一个用于绘制手写笔的轨迹。当你需要保存手写笔的轨迹时，只保存包含手写笔轨迹的 Canvas 图像。
+
+以下是一个示例代码：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canvas 背景图片与手写笔效果</title>
+</head>
+<body>
+
+<div style="position: relative;">
+    <!-- 用于绘制背景图的 Canvas -->
+    <canvas id="backgroundCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+    <!-- 用于绘制手写笔轨迹的 Canvas -->
+    <canvas id="penCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+</div>
+<button onclick="savePenCanvas()">保存手写笔轨迹</button>
+
+<script>
+    var backgroundCanvas = document.getElementById('backgroundCanvas');
+    var penCanvas = document.getElementById('penCanvas');
+    var ctxBackground = backgroundCanvas.getContext('2d');
+    var ctxPen = penCanvas.getContext('2d');
+
+    var backgroundImage = new Image();
+    backgroundImage.onload = function() {
+        // 在背景 Canvas 上绘制背景图
+        ctxBackground.drawImage(backgroundImage, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
+    };
+    backgroundImage.src = 'background.jpg'; // 背景图片的路径
+
+    // 绘制手写笔轨迹
+    function drawPen(x, y) {
+        ctxPen.beginPath();
+        ctxPen.arc(x, y, 5, 0, Math.PI * 2);
+        ctxPen.fillStyle = 'black';
+        ctxPen.fill();
+    }
+
+    // 鼠标移动时绘制手写笔轨迹
+    penCanvas.addEventListener('mousemove', function(event) {
+        if (event.buttons === 1) {
+            drawPen(event.offsetX, event.offsetY);
+        }
+    });
+
+    // 保存手写笔轨迹
+    function savePenCanvas() {
+        var imageURL = penCanvas.toDataURL('image/png');
+        var link = document.createElement('a');
+        link.href = imageURL;
+        link.download = 'pen_image.png';
+        link.click();
+    }
+</script>
+
+</body>
+</html>
+```
+
+在这个示例中，两个 Canvas 分别用于绘制背景图和手写笔轨迹。当你点击保存按钮时，只有手写笔的轨迹会被保存，而背景图不会被保存。
+
+
+如果你想使用普通的 `<div>` 元素代替 Canvas 来显示背景图，同时在 Canvas 上绘制手写笔的轨迹，那么你可以通过 CSS 设置 `<div>` 元素的背景图，并将 `<div>` 元素作为背景图层，在上面放置一个透明的 Canvas 作为手写笔轨迹层。这样在保存手写笔轨迹时，只需要保存 Canvas 图像即可。
+
+以下是一个示例代码：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Div 背景图片与手写笔效果</title>
+<style>
+    #background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('background.jpg'); /* 设置背景图片 */
+        background-size: cover;
+        z-index: 1;
+    }
+    #penCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+</style>
+</head>
+<body>
+
+<div id="background"></div>
+<canvas id="penCanvas"></canvas>
+<button onclick="savePenCanvas()">保存手写笔轨迹</button>
+
+<script>
+    var penCanvas = document.getElementById('penCanvas');
+    var ctxPen = penCanvas.getContext('2d');
+
+    // 绘制手写笔轨迹
+    function drawPen(x, y) {
+        ctxPen.beginPath();
+        ctxPen.arc(x, y, 5, 0, Math.PI * 2);
+        ctxPen.fillStyle = 'black';
+        ctxPen.fill();
+    }
+
+    // 鼠标移动时绘制手写笔轨迹
+    penCanvas.addEventListener('mousemove', function(event) {
+        if (event.buttons === 1) {
+            drawPen(event.offsetX, event.offsetY);
+        }
+    });
+
+    // 保存手写笔轨迹
+    function savePenCanvas() {
+        var imageURL = penCanvas.toDataURL('image/png');
+        var link = document.createElement('a');
+        link.href = imageURL;
+        link.download = 'pen_image.png';
+        link.click();
+    }
+</script>
+
+</body>
+</html>
+```
+
+在这个示例中，`<div>` 元素代替了 Canvas 来显示背景图片，而透明的 Canvas 用于绘制手写笔的轨迹。当你点击保存按钮时，只有手写笔的轨迹会被保存。
