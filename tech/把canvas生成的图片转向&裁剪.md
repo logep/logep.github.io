@@ -1,3 +1,50 @@
+##根据图片width和height 来决定
+```
+// 假设 base64Data 是原始的 base64 编码的图片数据
+const base64Data = 'data:image/png;base64, ...';
+
+// 创建一个 Image 对象
+const image = new Image();
+
+// 设置 Image 对象的 src 属性为 base64 编码的图片数据
+image.src = base64Data;
+
+// 当图片加载完成后执行操作
+image.onload = function() {
+  // 创建一个新的 Canvas 元素
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // 确定旋转角度
+  let rotateAngle = 0;
+  if (image.width > image.height) {
+    rotateAngle = 90; // 宽度大于高度，旋转90度
+  } else {
+    rotateAngle = 270; // 宽度小于高度，旋转270度
+  }
+
+  // 设置 Canvas 的尺寸与旋转后的图片尺寸一致
+  if (rotateAngle === 90 || rotateAngle === 270) {
+    canvas.width = image.height;
+    canvas.height = image.width;
+  } else {
+    canvas.width = image.width;
+    canvas.height = image.height;
+  }
+
+  // 在 Canvas 上绘制图片，并进行旋转
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(rotateAngle * Math.PI / 180);
+  ctx.drawImage(image, -image.width / 2, -image.height / 2);
+
+  // 将 Canvas 上的内容转换为新的 base64 编码
+  const newBase64Data = canvas.toDataURL('image/png');
+
+  // newBase64Data 即为旋转后的新的 base64 编码的图片数据
+  console.log(newBase64Data);
+};
+```
+
 要在 canvas 上生成的图像旋转 90 度并将其转换为 Base64 字符串，你可以按照以下步骤操作：
 
 1. 将 canvas 上的图像绘制到一个临时 canvas 上。
