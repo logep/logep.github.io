@@ -1,5 +1,5 @@
 在 Vue 2 中，你可以使用以下几种方式引入和使用 SVG 图片：
-
+  .loader('svg-sprite-loader')
 ### 1. 直接使用 `<img>` 标签
 
 ```vue
